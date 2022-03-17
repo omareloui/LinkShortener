@@ -1,16 +1,7 @@
-<script setup lang="ts">
-import { useThemeStore } from "~~/store/useTheme";
-
-const themeStore = useThemeStore();
-themeStore.load();
-
-onMounted(themeStore.loadMediaQuery);
-</script>
-
 <template>
-  <div>
+  <LayoutsWrapper>
     <main>
       <slot></slot>
     </main>
-  </div>
+  </LayoutsWrapper>
 </template>
