@@ -11,7 +11,7 @@ onBeforeMount(redirect);
 <template>
   <main>
     <div class="logo"><Logo no-color /></div>
-    <div class="text">Redirecting</div>
+    <h1 class="text">Redirecting</h1>
   </main>
 </template>
 
