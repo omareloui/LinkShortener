@@ -5,7 +5,7 @@ function redirect() {
   location.replace(`/api/visit?slug=${slug}`);
 }
 
-// onBeforeMount(redirect);
+onBeforeMount(redirect);
 </script>
 
 <template>
