@@ -1,11 +1,13 @@
 <script setup lang="ts">
+definePageMeta({ layout: false });
+
+onBeforeMount(redirect);
+
 function redirect() {
   const route = useRoute();
   const { slug } = route.params;
   location.replace(`/api/visit?slug=${slug}`);
 }
-
-onBeforeMount(redirect);
 </script>
 
 <template>
