@@ -52,8 +52,14 @@ export class LinkController {
         throw createError({
           message: "The slug is duplicated, try another one.",
           statusCode: 409,
+          statusMessage: "Conflict",
+          stack: null,
         });
-      throw createError({ message: e.message, statusCode: 400 });
+      throw createError({
+        message: e.message,
+        statusCode: 500,
+        stack: null,
+      });
     }
   };
 }

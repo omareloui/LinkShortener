@@ -10,12 +10,18 @@ async function createLink() {
   const form = document.querySelector("form");
   const formData = new FormData(form);
   const body = Object.fromEntries(formData.entries()) as unknown as CreateLink;
+
+  body.slug &&= useCreateSlug(body.slug);
+
   const { data, error } = await useFetch("/api/create", {
     method: "POST",
     body,
   });
 
-  if (error.value) throw new Error(error.value);
+  if (error.value) {
+    if (error.value.data.statusCode === 409) console.log("Slug already in use");
+    return (created.value = null);
+  }
 
   const newLink = data.value as Link;
   created.value = `${location.origin}/${newLink.slug}`;
@@ -37,15 +43,21 @@ async function createLink() {
           <input type="url" id="url" name="url" required />
         </div>
 
-        <!-- <div>
+        <div>
           <label for="slug">Slug: </label>
           <input type="text" id="slug" name="slug" />
-        </div> -->
+        </div>
 
         <input type="submit" value="create link" />
       </form>
+
+      <div>
+        Created:
+        <NuxtLink v-if="created" :to="created">{{ created }}</NuxtLink>
+
+        <span v-else>duplicated slug or not set yet</span>
+      </div>
     </Container>
-    <div>Created: {{ created }}</div>
   </div>
 </template>
 
