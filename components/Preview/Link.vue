@@ -24,7 +24,7 @@ async function removeLink(link: Link) {
 }
 
 function copyLink(slug: string) {
-  copy(`${location.origin}/${slug}`);
+  copy(`${location.origin}/${slug}?s=ls`);
 }
 </script>
 
@@ -98,7 +98,6 @@ function copyLink(slug: string) {
     align-items: center
     +no-wrap
     overflow: hidden
-
 
   +e(url)
     +fw-light

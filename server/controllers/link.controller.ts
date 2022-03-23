@@ -4,7 +4,7 @@ import { nanoid } from "nanoid";
 import { Link } from "~~/server/models";
 import { linkSchema } from "~~/server/validate";
 
-import type { APIFunction, CreateLink } from "~~/@types";
+import type { APIFunction, CreateLink, LinkSources } from "~~/@types";
 import { useSlugHelper } from "~~/composables/useSlugHelper";
 
 export class LinkController {
@@ -16,7 +16,8 @@ export class LinkController {
   };
 
   static visit: APIFunction = async (req, res) => {
-    const { slug } = useQuery(req) as { slug: string };
+    const { slug, source } = useQuery(req) as { slug: string; source?: string };
+
     const link = await Link.findOne({ slug: slug.toLowerCase() });
 
     if (!link)
@@ -25,7 +26,14 @@ export class LinkController {
         statusCode: 404,
       });
 
+    if (source) {
+      const linkSources = { ...(link.sources || {}) };
+      linkSources[source] = linkSources[source] ? linkSources[source] + 1 : 1;
+      link.sources = linkSources;
+    }
+
     link.clicks++;
+
     await link.save();
 
     return sendRedirect(res, link.url);

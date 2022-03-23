@@ -6,7 +6,12 @@ onBeforeMount(redirect);
 function redirect() {
   const route = useRoute();
   const { slug } = route.params;
-  location.replace(`/api/visit?slug=${slug}`);
+  const { s } = route.query;
+
+  let link = `/api/visit?slug=${slug}`;
+  if (s) link += `&source=${s}`;
+
+  location.replace(link);
 }
 </script>
 
