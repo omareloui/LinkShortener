@@ -21,4 +21,5 @@ button
   &.normalized
     border: none
     +clr-bg(none)
+    +ff(main)
 </style>

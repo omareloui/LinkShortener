@@ -3,15 +3,15 @@ import { nanoid } from "nanoid";
 
 import { Link } from "~~/server/models";
 
-import type { APIFunction, APIError, CreateLink } from "~~/@types";
+import type { APIFunction, CreateLink } from "~~/@types";
 
 export class LinkController {
   private static DEFAULT_SLUG_LENGTH = 5;
 
-  // static getAll: APIFunction = async () => {
-  //   const links = await Link.find().exec();
-  //   return links;
-  // };
+  static getAll: APIFunction = async () => {
+    const links = await Link.find().sort("-createdAt").exec();
+    return links;
+  };
 
   static get: APIFunction = async req => {
     const { slug } = useQuery(req);
@@ -65,5 +65,27 @@ export class LinkController {
 
       throw createError({ message, statusCode, stack: null });
     }
+  };
+
+  static delete: APIFunction = async req => {
+    console.log("here");
+
+    if (req.method !== "DELETE") return { ok: false };
+
+    const { id } = useQuery(req);
+    console.log(id);
+
+    const link = await Link.findOne({ _id: id });
+    console.log({ link });
+
+    if (!link)
+      throw createError({
+        message: "Can't find the requested URL to remove.",
+        statusCode: 404,
+      });
+
+    await link.delete();
+
+    return { ok: true };
   };
 }

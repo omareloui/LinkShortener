@@ -3,6 +3,7 @@ export interface Link {
   url: string;
   slug: string;
   clicks: number;
+  createdAt: number;
 }
 
 export interface CreateLink {

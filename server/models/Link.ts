@@ -12,4 +12,4 @@ export class Link {
   public clicks!: number;
 }
 
-export default getModelForClass(Link);
+export default getModelForClass(Link, { schemaOptions: { timestamps: true } });
