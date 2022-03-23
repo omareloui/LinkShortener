@@ -1,7 +1,6 @@
 <template>
   <LayoutsWrapper>
-    <main>
-      <slot></slot>
-    </main>
+    <slot></slot>
+    <Notify />
   </LayoutsWrapper>
 </template>

@@ -14,8 +14,9 @@
 }
 
 body {
-  @include c.clr-bg;
+  @include c.clr-bg(body);
   @include c.clr-txt;
+
   @include ff.ff(main);
   @include fs.fs-base;
 

@@ -1,28 +1,31 @@
 import { useSlugLanguagesMap } from "./useSlugLanguagesMap";
 import { useSlugRemoveList } from "./useSlugRemoveList";
 
-interface UseCreateSlugOptions {
+interface SlugOptions {
   removeStopWords?: boolean;
+  getLocalFromMeta?: boolean;
 }
 
-export function useCreateSlug(
-  input: string,
-  options: UseCreateSlugOptions = { removeStopWords: true }
+export function useSlugHelper(
+  options: SlugOptions = {
+    removeStopWords: false,
+    getLocalFromMeta: false,
+  }
 ) {
   const removeList = useSlugRemoveList();
   const { ALL_MAPS, SPECIFIC_MAPS } = useSlugLanguagesMap();
 
-  class Slug {
+  class SlugHelper {
     public map: Record<string, string> = {};
     public chars: string[] = [];
     public regex: RegExp;
 
-    public slug?: string;
-
-    constructor(public input: string, public options: UseCreateSlugOptions) {
-      const locale = document
-        .querySelector('meta[name="backend-locale"]')
-        ?.getAttribute("content");
+    constructor(public options: SlugOptions) {
+      const locale = options.getLocalFromMeta
+        ? document
+            ?.querySelector('meta[name="backend-locale"]')
+            ?.getAttribute("content")
+        : undefined;
 
       if (typeof SPECIFIC_MAPS[locale] === "object")
         ALL_MAPS.push(SPECIFIC_MAPS[locale]);
@@ -51,10 +54,10 @@ export function useCreateSlug(
       return string.replace(regex, "");
     }
 
-    public create() {
-      this.slug = this.input.replace(this.regex, m => this.map[m]);
+    public create(input: string) {
+      const slug = input.replace(this.regex, m => this.map[m]);
 
-      this.slug = this.removeStopWords(this.slug)
+      return this.removeStopWords(slug)
         .replace(/[^-\w\s]/g, "")
         .replace(/[-\s]+/g, "-")
         .toLowerCase()
@@ -62,8 +65,5 @@ export function useCreateSlug(
     }
   }
 
-  const slug = new Slug(input, options);
-  slug.create();
-
-  return slug.slug;
+  return new SlugHelper(options);
 }

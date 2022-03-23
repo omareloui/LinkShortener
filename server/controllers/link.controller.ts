@@ -45,21 +45,25 @@ export class LinkController {
     body.slug ||= nanoid(this.DEFAULT_SLUG_LENGTH);
 
     try {
-      const link = await Link.create(body);
+      const sameSlugLink = await Link.findOne({ slug: body.slug });
+
+      if (sameSlugLink)
+        throw {
+          message: "This slug is taken, try another one.",
+          statusCode: 409,
+        };
+
+      const link = new Link(body);
+      await link.save();
       return link;
     } catch (e) {
-      if (e.code === 11000)
-        throw createError({
-          message: "The slug is duplicated, try another one.",
-          statusCode: 409,
-          statusMessage: "Conflict",
-          stack: null,
-        });
-      throw createError({
-        message: e.message,
-        statusCode: 500,
-        stack: null,
-      });
+      const statusCode = e.statusCode || 500;
+      const message =
+        statusCode === 409
+          ? e.message
+          : "Something went wrong, please try again later.";
+
+      throw createError({ message, statusCode, stack: null });
     }
   };
 }
