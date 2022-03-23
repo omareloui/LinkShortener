@@ -1,7 +1,7 @@
 <script setup lang="ts">
 definePageMeta({ layout: false });
 
-// onBeforeMount(redirect);
+onBeforeMount(redirect);
 
 function redirect() {
   const route = useRoute();

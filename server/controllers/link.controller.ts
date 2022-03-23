@@ -2,6 +2,7 @@ import { createError, useQuery, useBody, sendRedirect } from "h3";
 import { nanoid } from "nanoid";
 
 import { Link } from "~~/server/models";
+import { linkSchema } from "~~/server/validate";
 
 import type { APIFunction, CreateLink } from "~~/@types";
 import { useSlugHelper } from "~~/composables/useSlugHelper";
@@ -31,13 +32,22 @@ export class LinkController {
   };
 
   static create: APIFunction = async req => {
-    const body = (await useBody(req)) as CreateLink;
+    let body = (await useBody(req)) as CreateLink;
     const slugHelper = useSlugHelper();
 
     body.slug ||= nanoid(this.DEFAULT_SLUG_LENGTH);
     body.slug = slugHelper.create(body.slug);
 
     try {
+      try {
+        body = await linkSchema.validate(body);
+      } catch (e) {
+        throw {
+          message: e.message,
+          statusCode: 400,
+        };
+      }
+
       const sameSlugLink = await Link.findOne({ slug: body.slug });
 
       if (sameSlugLink)
@@ -50,13 +60,11 @@ export class LinkController {
       await link.save();
       return link;
     } catch (e) {
-      const statusCode = e.statusCode || 500;
-      const message =
-        statusCode === 409
-          ? e.message
-          : "Something went wrong, please try again later.";
-
-      throw createError({ message, statusCode, stack: null });
+      throw createError({
+        message: e.message,
+        statusCode: e.statusCode || 500,
+        stack: null,
+      });
     }
   };
 

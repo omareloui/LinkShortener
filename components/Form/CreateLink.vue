@@ -30,7 +30,7 @@ async function onSubmit() {
   const body = { url: url.value, slug: slug.value } as CreateLink;
 
   try {
-    linksStore.create(body);
+    await linksStore.create(body);
     emptyForm();
     notify.success("Created the link.");
   } catch (e) {
@@ -42,6 +42,7 @@ async function onSubmit() {
 
 function setError(message: string) {
   if (message.match(/slug/i)) error.field = "slug";
+  if (message.match(/url/i)) error.field = "url";
 
   if (!error.field) return;
 
