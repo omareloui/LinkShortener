@@ -1,7 +1,7 @@
 <script setup lang="ts">
 definePageMeta({ layout: false });
 
-onBeforeMount(redirect);
+// onBeforeMount(redirect);
 
 function redirect() {
   const route = useRoute();
@@ -21,10 +21,10 @@ function redirect() {
 @use "~~/assets/styles/mixins" as *
 
 main
-  --primary-gradient: linear-gradient(90deg, var(--clr-primary) 0%, var(--clr-secondary) 100%)
+  --primary-gradient: linear-gradient(90deg, var(--clr-primary), var(--clr-secondary))
 
   +pos-r
-  +h(min 100vh)
+  +h(100vh)
   +grid($center: true)
   background: var(--primary-gradient)
 
@@ -35,7 +35,7 @@ main
       +clr(primary, fill, 0.5)
 
   .text
-    --dot-size: 9px
+    --dot-size: 8px
     --dots-gap: 5px
 
     --second-dot-offset: calc(var(--dot-size) + var(--dots-gap))
@@ -44,14 +44,15 @@ main
     isolation: isolate
     +pos-r
     +clr-txt(light)
-    +fs-5xl
+    +fs-4xl
     +fw-bold
+    transform: translateX(calc((var(--dot-size) + var(--dot-size)) * -1))
 
     &::after
       content: ''
       +size(var(--dot-size))
       +br-cr
-      +pos-a(bottom 18px right -12px)
+      +pos-a(bottom 13px right -12px)
       background: currentColor
       animation: load 1s linear infinite
 
