@@ -4,6 +4,7 @@ import { nanoid } from "nanoid";
 import { Link } from "~~/server/models";
 
 import type { APIFunction, CreateLink } from "~~/@types";
+import { useSlugHelper } from "~~/composables/useSlugHelper";
 
 export class LinkController {
   private static DEFAULT_SLUG_LENGTH = 5;
@@ -13,20 +14,9 @@ export class LinkController {
     return links;
   };
 
-  static get: APIFunction = async req => {
-    const { slug } = useQuery(req);
-    const link = await Link.findOne({ slug });
-    if (!link)
-      throw createError({
-        message: "Can't find the requested URL.",
-        statusCode: 404,
-      });
-    return link;
-  };
-
   static visit: APIFunction = async (req, res) => {
-    const { slug } = useQuery(req);
-    const link = await Link.findOne({ slug });
+    const { slug } = useQuery(req) as { slug: string };
+    const link = await Link.findOne({ slug: slug.toLowerCase() });
 
     if (!link)
       throw createError({
@@ -42,7 +32,10 @@ export class LinkController {
 
   static create: APIFunction = async req => {
     const body = (await useBody(req)) as CreateLink;
+    const slugHelper = useSlugHelper();
+
     body.slug ||= nanoid(this.DEFAULT_SLUG_LENGTH);
+    body.slug = slugHelper.create(body.slug);
 
     try {
       const sameSlugLink = await Link.findOne({ slug: body.slug });
@@ -68,15 +61,11 @@ export class LinkController {
   };
 
   static delete: APIFunction = async req => {
-    console.log("here");
-
     if (req.method !== "DELETE") return { ok: false };
 
     const { id } = useQuery(req);
-    console.log(id);
 
     const link = await Link.findOne({ _id: id });
-    console.log({ link });
 
     if (!link)
       throw createError({

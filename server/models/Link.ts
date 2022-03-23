@@ -5,7 +5,7 @@ export class Link {
   @prop({ type: String, required: true })
   public url!: string;
 
-  @prop({ type: String, required: true, unique: true })
+  @prop({ type: String, required: true, unique: true, lowercase: true })
   public slug!: string;
 
   @prop({ type: Number, default: 0 })
