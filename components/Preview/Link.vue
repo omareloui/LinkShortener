@@ -8,6 +8,7 @@ const linksStore = useLinksStore();
 
 const notify = useNotify();
 const copy = useCopy();
+const clicksCounter = useClicksCounter();
 
 async function removeLink(link: Link) {
   const isConfirmed = await confirm(
@@ -30,7 +31,7 @@ function copyLink(slug: string) {
 
 <template>
   <div class="link">
-    <div class="link__clicks">
+    <div class="link__clicks" :title="clicksCounter(link)">
       <span>{{ link.clicks }}</span>
     </div>
 
