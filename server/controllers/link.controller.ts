@@ -27,8 +27,13 @@ export class LinkController {
       });
 
     if (source) {
+      const slugHelper = useSlugHelper();
+
       const linkSources = { ...(link.sources || {}) };
-      linkSources[source] = linkSources[source] ? linkSources[source] + 1 : 1;
+      const normalizedSource = slugHelper.create(source);
+      const currentValue = linkSources[normalizedSource];
+
+      linkSources[normalizedSource] = currentValue ? currentValue + 1 : 1;
       link.sources = linkSources;
     }
 

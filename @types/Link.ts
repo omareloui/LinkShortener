@@ -4,7 +4,7 @@ export interface Link {
   url: string;
   slug: string;
   clicks: number;
-  sources: LinkSources;
+  sources?: LinkSources;
   createdAt: number;
 }
 
