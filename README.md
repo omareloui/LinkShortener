@@ -1,6 +1,6 @@
-# Link Shortener
+# Omar Eloui Links
 
-<div align="center" style="margin: 20px 0">
+<div align="center">
   <img src="public/logo.png">
 </div>
 
