@@ -134,9 +134,12 @@ function close() {
     +pos-a(right 20px top 20px)
     +clr-bg(cancel)
     +brdr($size: 0)
-    +size(30px)
+    +size(20px)
     +grid($center: true)
     +br-cr
+
+    +lt-mobile
+      +size(25px)
 
     ::v-deep(svg)
       +size(60%)
