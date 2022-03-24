@@ -1,4 +1,6 @@
 <script setup lang="ts">
+useMeta({ title: "Redirecting | Omar Eloui Links" });
+
 definePageMeta({ layout: false });
 
 onBeforeMount(redirect);
