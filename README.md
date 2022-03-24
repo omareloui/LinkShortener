@@ -1,7 +1,7 @@
 # Omar Eloui Links
 
 <div align="center">
-  <img src="public/logo.png">
+  <img src="public/heading.png">
 </div>
 
 A link shortener created to shorten links and track clicks sources.
