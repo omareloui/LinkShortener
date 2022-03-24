@@ -16,7 +16,7 @@ export function useClicksCounter() {
       }
     }
 
-    addToResult("Not Tracked", notTracked);
+    if (notTracked > 0) addToResult("Not Tracked", notTracked);
     return result;
   };
 }
