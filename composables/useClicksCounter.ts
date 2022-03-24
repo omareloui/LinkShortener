@@ -7,7 +7,7 @@ export function useClicksCounter() {
     let result = "";
 
     const addToResult = (key: string, value: number) =>
-      (result += `${key}: ${value} clicks.\n`);
+      (result += `${key}: ${value} click${value > 1 ? "s" : ""}.\n`);
 
     if (link.sources) {
       for (const [key, value] of Object.entries(link.sources)) {
