@@ -19,8 +19,6 @@ const themeStore = useThemeStore();
 
 
 .theme-button
-  --primary-gradient: linear-gradient(90deg, var(--clr-secondary), var(--clr-primary))
-
   +pa(5px 8px)
   +br-md
   +fw-medium

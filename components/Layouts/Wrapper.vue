@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { useThemeStore } from "~~/store/useTheme";
+// import { useThemeStore } from "~~/store/useTheme";
 
-const themeStore = useThemeStore();
-themeStore.load();
+// const themeStore = useThemeStore();
+// themeStore.load();
 
-onMounted(themeStore.loadMediaQuery);
+// onMounted(themeStore.loadMediaQuery);
 </script>
 
 <template>

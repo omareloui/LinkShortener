@@ -2,13 +2,13 @@
   <header>
     <div class="brand">
       <div class="logo-container">
-        <Logo class="logo" color="var(--clr-primary)" />
+        <Logo class="logo" />
       </div>
 
       <h1>omareloui links</h1>
     </div>
 
-    <ThemeToggleButton />
+    <!-- <ThemeToggleButton /> -->
   </header>
 </template>
 
@@ -31,7 +31,6 @@ header
     h1
       +fw-bold
       +fs-base
-      +clr-txt(primary)
       +mt(5px)
       +no-wrap
 </style>

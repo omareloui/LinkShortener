@@ -22,6 +22,7 @@ form
   +mx(auto)
 
   +clr-bg(secondary)
+  +clr-txt(invert)
   +float(2)
 
   +br-lg

@@ -47,7 +47,7 @@ function copyLink(slug: string) {
         @click="copyLink(link.slug)"
         aria-label="Copy link"
       >
-        <IconCopy class="button__icon" color="var(--clr-text-light)" />
+        <IconCopy class="button__icon" color="var(--clr-text-invert)" />
       </ButtonBase>
       <ButtonBase
         class="button button--delete"
@@ -66,33 +66,34 @@ function copyLink(slug: string) {
 
 
 .link
-  --primary-gradient: linear-gradient(90deg, var(--clr-secondary), var(--clr-primary))
   --clicks-size: 20px
 
-  +grid($gap: 10px, $columns:  var(--clicks-size) 1fr auto)
+  +grid($gap: 10px, $columns:  auto 1fr auto)
 
   +pa(12px 15px)
   +w(100%)
 
-  background: var(--primary-gradient)
-
   +br-lg
-  +clr-txt(light)
+
+  +clr-txt(invert)
+  +clr-bg(light)
 
   +e(clicks)
     +pos-r
-    +br-cr
-    +clr-bg(light)
-    +clr-txt(primary)
+    +br-md
     +fs-xs
-    +fw-bold
-    +size(var(--clicks-size))
+    +fw-medium
+    +px(5px)
+    +w(min var(--clicks-size))
+    +h(var(--clicks-size))
     align-self: center
 
+    +clr-txt
+    background: var(--primary-gradient)
+
     span
-      +center
-      +h(90%)
-      +inline-block
+      +block
+      +center-text
 
   +e(text)
     +flex($gap: 10px)
@@ -101,10 +102,10 @@ function copyLink(slug: string) {
     overflow: hidden
 
   +e(url)
-    +fw-light
+    +fw-medium
     +fs-sm
     +underline
-    +clr-txt(light, 0.6)
+    +clr-txt(invert, 0.6)
 
     overflow: hidden
     text-overflow: ellipsis

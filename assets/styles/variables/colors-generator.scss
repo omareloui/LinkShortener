@@ -6,12 +6,12 @@
 
 // I'm adding the colors for readability
 // Validate that all light colors are in dark colors and vice versa
-$validating-result: match-light-and-dark-colors($light, $dark);
-@if $validating-result == "dark" {
-  @error "Dark colors is missing at least a color.";
-} @else if $validating-result == "light" {
-  @error "Light colors is missing at least a color.";
-}
+// $validating-result: match-light-and-dark-colors($light, $dark);
+// @if $validating-result == "dark" {
+//   @error "Dark colors is missing at least a color.";
+// } @else if $validating-result == "light" {
+//   @error "Light colors is missing at least a color.";
+// }
 
 @mixin generate-colors($map) {
   @each $name, $value in $map {
@@ -49,7 +49,7 @@ $validating-result: match-light-and-dark-colors($light, $dark);
   @include generate-colors($default);
 }
 
-@mixin colors-dark {
-  color-scheme: dark;
-  @include generate-colors($dark);
-}
+// @mixin colors-dark {
+//   color-scheme: dark;
+//   @include generate-colors($dark);
+// }

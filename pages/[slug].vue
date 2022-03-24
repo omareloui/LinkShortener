@@ -26,12 +26,9 @@ function redirect() {
 @use "~~/assets/styles/mixins" as *
 
 main
-  --primary-gradient: linear-gradient(90deg, var(--clr-primary), var(--clr-secondary))
-
   +pos-r
   +h(100vh)
   +grid($center: true)
-  background: var(--primary-gradient)
 
   .logo
     +w(50vw)

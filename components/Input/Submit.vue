@@ -8,8 +8,6 @@
 @use "~~/assets/styles/mixins" as *
 
 [type="submit"]
-  --primary-gradient: linear-gradient(90deg, var(--clr-secondary) 0%, var(--clr-primary) 100%)
-
   +flex($gap: 10px, $center: true)
   justify-content: center
 

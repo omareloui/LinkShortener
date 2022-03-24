@@ -14,7 +14,13 @@
 }
 
 body {
-  @include c.clr-bg(body);
+  --primary-gradient: linear-gradient(
+    90deg,
+    var(--clr-secondary),
+    var(--clr-primary)
+  );
+
+  background: var(--primary-gradient);
   @include c.clr-txt;
 
   @include ff.ff(main);

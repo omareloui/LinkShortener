@@ -23,6 +23,7 @@ input
   +pa(8px 10px)
   +block
   +w(100%)
+  +ff(main)
 
   &.large
     +fs-lg
