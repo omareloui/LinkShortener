@@ -1,8 +1,6 @@
 # Omar Eloui Links
 
-<div align="center">
-  <img src="public/heading.png">
-</div>
+![Logo image](/public/heading.png)
 
 A link shortener created to shorten links and track clicks sources.
 
