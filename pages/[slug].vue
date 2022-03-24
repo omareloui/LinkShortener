@@ -40,32 +40,12 @@ main
 
   .text
     --dot-size: 8px
-    --dots-gap: 5px
-
-    --second-dot-offset: calc(var(--dot-size) + var(--dots-gap))
-    --third-dot-offset: calc((var(--dot-size) + var(--dots-gap)) * 2)
 
     isolation: isolate
-    +pos-r
     +clr-txt(light)
     +fs-4xl
     +fw-bold
     transform: translateX(calc((var(--dot-size) + var(--dot-size)) * -1))
 
-    &::after
-      content: ''
-      +size(var(--dot-size))
-      +br-cr
-      +pos-a(bottom 13px right -12px)
-      background: currentColor
-      animation: load 1s linear infinite
-
-
-@keyframes load
-  0%
-    box-shadow: var(--second-dot-offset) 0 hsl(var(--clr-hs-text-light) var(--clr-l-text-light)/var(--clr-o-0)), var(--third-dot-offset) 0 hsl(var(--clr-hs-text-light) var(--clr-l-text-light)/var(--clr-o-0))
-  50%
-    box-shadow: var(--second-dot-offset) 0 hsl(var(--clr-hs-text-light) var(--clr-l-text-light)/var(--clr-o-100)), var(--third-dot-offset) 0 hsl(var(--clr-hs-text-light) var(--clr-l-text-light)/var(--clr-o-0))
-  100%
-    box-shadow: var(--second-dot-offset) 0 hsl(var(--clr-hs-text-light) var(--clr-l-text-light)/var(--clr-o-100)), var(--third-dot-offset) 0 hsl(var(--clr-hs-text-light) var(--clr-l-text-light)/var(--clr-o-100))
+    +dot-load-animation(var(--dot-size), 5px, bottom 13px right -12px)
 </style>

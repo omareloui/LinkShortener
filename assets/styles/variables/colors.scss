@@ -27,6 +27,7 @@ $light: (
   background-tertiary: hsl(0, 0%, 88%),
   background-invert: hsl(220, 11%, 11%),
   box-shadow: hsl(220, 11%, 11%),
+  border-default: map.get($shared, light),
   input-bg: hsl(0, 0%, 100%),
   input-error: hsl(0, 100%, 68%),
   button: hsl(218, 16%, 68%),

@@ -1,0 +1,22 @@
+@keyframes dot-load {
+  0% {
+    box-shadow: var(--second-dot-offset) 0
+        hsl(var(--clr-hs-text-light) var(--clr-l-text-light) / var(--clr-o-0)),
+      var(--third-dot-offset) 0
+        hsl(var(--clr-hs-text-light) var(--clr-l-text-light) / var(--clr-o-0));
+  }
+
+  50% {
+    box-shadow: var(--second-dot-offset) 0
+        hsl(var(--clr-hs-text-light) var(--clr-l-text-light) / var(--clr-o-100)),
+      var(--third-dot-offset) 0
+        hsl(var(--clr-hs-text-light) var(--clr-l-text-light) / var(--clr-o-0));
+  }
+
+  100% {
+    box-shadow: var(--second-dot-offset) 0
+        hsl(var(--clr-hs-text-light) var(--clr-l-text-light) / var(--clr-o-100)),
+      var(--third-dot-offset) 0
+        hsl(var(--clr-hs-text-light) var(--clr-l-text-light) / var(--clr-o-100));
+  }
+}

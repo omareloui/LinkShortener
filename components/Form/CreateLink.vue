@@ -7,11 +7,15 @@ const linksStore = useLinksStore();
 
 const notify = useNotify();
 const slugHelper = useSlugHelper();
+const sleep = useSleep();
 
 const url = ref("");
 const slug = ref("");
 
 const linkPreview = ref("");
+
+const isLoading = ref(false);
+const isFormOpen = ref(false);
 
 const error = reactive({
   field: null,
@@ -30,6 +34,8 @@ async function onSubmit() {
   const body = { url: url.value, slug: slug.value } as CreateLink;
 
   try {
+    isLoading.value = true;
+    await sleep(10_000);
     await linksStore.create(body);
     emptyForm();
     notify.success("Created the link.");
@@ -37,6 +43,8 @@ async function onSubmit() {
     setError(e.message);
     notify.error(e.message);
     return;
+  } finally {
+    isLoading.value = false;
   }
 }
 
@@ -52,11 +60,31 @@ function setError(message: string) {
 function emptyForm() {
   url.value = "";
   slug.value = "";
+  close();
+}
+
+function open() {
+  isFormOpen.value = true;
+}
+
+function close() {
+  isFormOpen.value = false;
 }
 </script>
 
 <template>
-  <FormBase @submit="onSubmit" class="create-link-form">
+  <div class="open-button" v-if="!isFormOpen">
+    <ButtonCreateLink @open="open" />
+  </div>
+
+  <FormBase
+    v-else
+    :is-loading="isLoading"
+    @submit="onSubmit"
+    class="create-link-form"
+  >
+    <!-- <ButtonBase @click="close" type="button">Close</ButtonBase> -->
+
     <h2 class="create-link-form__heading">Create a new link</h2>
     <InputText
       :error="error"
@@ -91,6 +119,9 @@ function emptyForm() {
 <style scoped lang="sass">
 @use "~~/assets/styles/mixins" as *
 
+.open-button
+  +my(20px)
+  +grid($center: true)
 
 .create-link-form
   +my(20px)

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+defineProps<{ isLoading?: boolean }>();
+
 const emit = defineEmits(["submit"]);
 </script>
 
@@ -6,7 +8,7 @@ const emit = defineEmits(["submit"]);
   <form @submit.prevent="emit('submit')">
     <slot></slot>
 
-    <InputSubmit class="submit">
+    <InputSubmit class="submit" :is-loading="isLoading">
       <slot name="submit"></slot>
     </InputSubmit>
   </form>
@@ -18,7 +20,7 @@ const emit = defineEmits(["submit"]);
 
 form
   +grid($gap: 10px)
-  +w(max 600px)
+  // +w(max 600px)
   +mx(auto)
 
   +clr-bg(secondary)
