@@ -58,7 +58,6 @@ function setError(message: string) {
 function emptyForm() {
   url.value = "";
   slug.value = "";
-  close();
 }
 
 function open() {
@@ -81,7 +80,13 @@ function close() {
     @submit="onSubmit"
     class="create-link-form"
   >
-    <!-- <ButtonBase @click="close" type="button">Close</ButtonBase> -->
+    <ButtonBase
+      @click="close"
+      type="button"
+      class="create-link-form__close-button"
+    >
+      <IconClose />
+    </ButtonBase>
 
     <h2 class="create-link-form__heading">Create a new link</h2>
     <InputText
@@ -122,7 +127,19 @@ function close() {
   +grid($center: true)
 
 .create-link-form
+  +pos-r
   +my(20px)
+
+  +e(close-button)
+    +pos-a(right 20px top 20px)
+    +clr-bg(cancel)
+    +brdr($size: 0)
+    +size(30px)
+    +grid($center: true)
+    +br-cr
+
+    ::v-deep(svg)
+      +size(60%)
 
   +e(heading)
     +fw-semibold
