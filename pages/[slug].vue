@@ -37,7 +37,7 @@ main
     +w(50vw)
     +center
     ::v-deep(svg)
-      +clr(primary, fill, 0.5)
+      +clr(light, fill, 0.08)
 
   .text
     --dot-size: 8px
