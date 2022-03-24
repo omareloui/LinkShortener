@@ -1,6 +1,8 @@
 # Link Shortener
 
-![Logo image](/public/logo.png)
+<div align="center" style="margin: 20px 0">
+  <img src="public/logo.png">
+</div>
 
 A link shortener created to shorten links and track clicks sources.
 
@@ -54,7 +56,7 @@ DB_URI=
 pnpm i && pnpm build && pnpm start
 ```
 
-### Open `http://localhost:3000` and enjoy!
+### Open `http://localhost:3000` and enjoy
 
 ---
 
