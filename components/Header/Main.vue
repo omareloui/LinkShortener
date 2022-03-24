@@ -7,8 +7,6 @@
 
       <h1>omareloui links</h1>
     </div>
-
-    <!-- <ThemeToggleButton /> -->
   </header>
 </template>
 
