@@ -7,7 +7,6 @@ const linksStore = useLinksStore();
 
 const notify = useNotify();
 const slugHelper = useSlugHelper();
-const sleep = useSleep();
 
 const url = ref("");
 const slug = ref("");
@@ -35,7 +34,6 @@ async function onSubmit() {
 
   try {
     isLoading.value = true;
-    await sleep(10_000);
     await linksStore.create(body);
     emptyForm();
     notify.success("Created the link.");
