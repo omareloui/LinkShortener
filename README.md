@@ -25,19 +25,19 @@ A link shortener created to shorten links and track clicks sources.
 
 ```bash
 # SSH
-git clone git@github.com:omareloui/AlsunYearbook.git
+git clone git@github.com:omareloui/Links.git
 
 # HTTPS
-git cone https://github.com/omareloui/AlsunYearbook.git
+git cone https://github.com/omareloui/Links.git
 
 # Github CLI
-gh repo clone omareloui/AlsunYearbook
+gh repo clone omareloui/Links
 ```
 
 ### Go into the project directory
 
 ```bash
-cd AlsunYearbook
+cd Links
 ```
 
 ### Create `.env` file in the root of the project and provide the variables
