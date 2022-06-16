@@ -1,34 +1,43 @@
 {
   "private": true,
   "scripts": {
-    "dev": "nuxt dev",
-    "build": "nuxt build",
+    "dev": "nuxi dev",
+    "build": "nuxi build",
     "start": "node .output/server/index.mjs",
-    "lint": "eslint src",
-    "lint:fix": "eslint src --fix",
+    "test": "nuxi test",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "lint:check": "eslint --print-config .eslintrc.json",
     "format": "prettier --write \"{,!(node_modules|.nuxt|.output)/**/}*.{[t|j]s,vue,scss}\""
   },
   "devDependencies": {
+    "@nuxt/test-utils-edge": "3.0.0-rc.3-27579668.27a0084",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
     "eslint": "^7.32.0",
     "eslint-config-airbnb": "^18.2.1",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "2",
+    "eslint-plugin-jsx-a11y": "6.4.1",
     "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "7.21.5",
+    "eslint-plugin-react-hooks": "4",
     "eslint-plugin-vue": "^7.19.1",
-    "nuxt3": "latest",
+    "nuxi": "3.0.0-rc.3",
+    "nuxt": "npm:nuxt3@latest",
     "prettier": "^2.4.1",
     "sass": "^1.43.2",
-    "sass-loader": "^12.2.0"
+    "sass-loader": "^12.2.0",
+    "typescript": "^4.7.3",
+    "vitest": "^0.14.1"
   },
   "dependencies": {
     "@pinia/nuxt": "^0.1.8",
-    "@typegoose/typegoose": "^9.7.0",
     "cookie-universal": "^2.1.5",
-    "dotenv": "^16.0.0",
-    "mongoose": "^6.2.6",
-    "nanoid": "^3.3.1",
+    "dotenv": "^16.0.1",
+    "mongoose": "^6.3.8",
+    "nanoid": "^4.0.0",
     "pinia": "^2.0.9",
-    "yup": "^0.32.11"
+    "zod": "^3.17.3"
   }
 }

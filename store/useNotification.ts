@@ -36,7 +36,7 @@ export const useNotificationStore = defineStore("notify", {
     },
 
     increaseId() {
-      this.idCounter++;
+      this.idCounter += 1;
     },
 
     notify({
@@ -67,7 +67,6 @@ export const useNotificationStore = defineStore("notify", {
     add(notification: Notification) {
       this.push(notification);
       this.show(notification.id);
-      // setTimeout(() => this.show(notification.id), 0);
     },
 
     close(notificationId: number) {

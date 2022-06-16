@@ -1,22 +1,37 @@
 import mongoose from "mongoose";
-import typegoose from "@typegoose/typegoose";
-const { prop, getModelForClass, modelOptions, Severity } = typegoose;
 
-import type { LinkSources } from "~~/@types";
+import type { Link as LinkInterface, DehydratedLink } from "~~/@types";
 
-@modelOptions({ options: { allowMixed: Severity.ALLOW } })
-export class Link {
-  @prop({ type: String, required: true })
-  public url!: string;
+const { Schema } = mongoose;
 
-  @prop({ type: String, required: true, unique: true, lowercase: true })
-  public slug!: string;
+const LinkSchema = new Schema<DehydratedLink>(
+  {
+    url: { type: String, required: true },
+    slug: {
+      type: String,
+      required: true,
+      unique: true,
+      index: true,
+      lowercase: true,
+    },
+    visits: [
+      {
+        _id: false,
+        ip: { type: String, required: true },
+        location: {
+          type: { type: String, default: "Point", enum: ["Point"] },
+          coordinates: { type: [Number], required: true },
+        },
+        at: { type: Date, required: true },
+      },
+    ],
+    sources: { type: Schema.Types.Mixed },
+  },
+  { timestamps: true }
+);
 
-  @prop({ type: Number, default: 0 })
-  public clicks!: number;
+LinkSchema.virtual("clicks").get(function (this: LinkInterface) {
+  return this.visits?.length || 0;
+});
 
-  @prop({ type: mongoose.Schema.Types.Mixed, default: {} })
-  public sources: LinkSources;
-}
-
-export default getModelForClass(Link, { schemaOptions: { timestamps: true } });
+export const Link = mongoose.model("Link", LinkSchema);

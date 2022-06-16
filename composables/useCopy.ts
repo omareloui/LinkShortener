@@ -4,9 +4,9 @@ export function useCopy() {
   const notify = useNotify();
 
   return async (text: string) => {
-    function copyFromTextarea(text: string) {
+    function copyFromTextarea(input: string) {
       const textarea = document.createElement("textarea");
-      textarea.value = text;
+      textarea.value = input;
 
       textarea.style.position = "fixed";
       textarea.style.left = "-999999px";
@@ -17,9 +17,10 @@ export function useCopy() {
       textarea.select();
       textarea.setSelectionRange(0, 99999);
 
-      return new Promise((res, rej) => {
-        document.execCommand("copy") ? res(true) : rej();
+      return new Promise(res => {
+        navigator.clipboard.writeText(textarea.value);
         textarea.remove();
+        res(true);
       });
     }
 
@@ -30,7 +31,7 @@ export function useCopy() {
 
       notify.success("Copied to clipboard.");
     } catch (e) {
-      notify.error(e.message, { duration: 10000 });
+      notify.error((e as Error).message, { duration: 10000 });
     }
   };
 }

@@ -6,14 +6,15 @@ export function useClicksCounter() {
 
     let result = "";
 
-    const addToResult = (key: string, value: number) =>
-      (result += `${key}: ${value} click${value > 1 ? "s" : ""}.\n`);
+    const addToResult = (key: string, value: number) => {
+      result += `${key}: ${value} click${value > 1 ? "s" : ""}.\n`;
+    };
 
     if (link.sources) {
-      for (const [key, value] of Object.entries(link.sources)) {
+      Object.entries(link.sources).forEach(([key, value]) => {
         addToResult(key, value);
         notTracked -= value;
-      }
+      });
     }
 
     if (notTracked > 0) addToResult("Not Tracked", notTracked);

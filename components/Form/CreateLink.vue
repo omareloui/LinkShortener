@@ -1,4 +1,3 @@
-import { CreateLink } from '~~/@types';
 <script setup lang="ts">
 import type { CreateLink } from "~~/@types";
 import { useLinksStore } from "~~/store/useLinks";
@@ -17,7 +16,7 @@ const isLoading = ref(false);
 const isFormOpen = ref(false);
 
 const error = reactive({
-  field: null,
+  field: null as null | string,
   message: "",
   clear: () => {
     error.message = "";
@@ -26,8 +25,35 @@ const error = reactive({
 });
 
 watch(slug, () => {
-  linkPreview.value = `${location.host}/${slugHelper.create(slug.value)}`;
+  linkPreview.value = `${window.location.host}/${slugHelper.create(
+    slug.value
+  )}`;
 });
+
+function emptyForm() {
+  url.value = "";
+  slug.value = "";
+}
+
+function isError(e: unknown): e is Error {
+  return (
+    e !== null &&
+    typeof e === "object" &&
+    (e as { name?: string }).name === "Error"
+  );
+}
+
+function getErrorMessage(e: unknown): string {
+  if (!isError(e)) return "Unknown error message";
+  return e.message;
+}
+
+function setError(message: string) {
+  if (message.match(/slug/i)) error.field = "slug";
+  if (message.match(/url/i)) error.field = "url";
+  if (!error.field) return;
+  error.message = message;
+}
 
 async function onSubmit() {
   const body = { url: url.value, slug: slug.value } as CreateLink;
@@ -38,26 +64,13 @@ async function onSubmit() {
     emptyForm();
     notify.success("Created the link.");
   } catch (e) {
-    setError(e.message);
-    notify.error(e.message);
+    const message = getErrorMessage(e);
+    setError(message);
+    notify.error(message);
     return;
   } finally {
     isLoading.value = false;
   }
-}
-
-function setError(message: string) {
-  if (message.match(/slug/i)) error.field = "slug";
-  if (message.match(/url/i)) error.field = "url";
-
-  if (!error.field) return;
-
-  error.message = message;
-}
-
-function emptyForm() {
-  url.value = "";
-  slug.value = "";
 }
 
 function open() {

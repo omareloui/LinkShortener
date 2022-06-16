@@ -1,14 +1,9 @@
-import * as yup from "yup";
+import { z } from "zod";
 
-export const linkSchema = yup.object().shape({
-  url: yup.string().url().required().trim(),
-  slug: yup
+export const LinkSchema = z.object({
+  url: z.string().url().trim(),
+  slug: z
     .string()
-    .matches(
-      /^[a-z0-9\-_]+$/,
-      'The slug can only include lower case letters, numbers, "-" or "_"'
-    )
-    .required()
-    .trim()
-    .lowercase(),
+    .regex(/^[a-z0-9\-_]+$/)
+    .trim(),
 });

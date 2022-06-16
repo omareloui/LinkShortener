@@ -17,38 +17,46 @@ export function useSlugHelper(
 
   class SlugHelper {
     public map: Record<string, string> = {};
+
     public chars: string[] = [];
+
     public regex: RegExp;
 
-    constructor(public options: SlugOptions) {
-      const locale = options.getLocalFromMeta
+    constructor(public slugOptions: SlugOptions) {
+      const locale = slugOptions.getLocalFromMeta
         ? document
             ?.querySelector('meta[name="backend-locale"]')
             ?.getAttribute("content")
         : undefined;
 
-      if (typeof SPECIFIC_MAPS[locale] === "object")
-        ALL_MAPS.push(SPECIFIC_MAPS[locale]);
+      type SpecifiedMapKey = keyof typeof SPECIFIC_MAPS;
 
-      for (let i = 0; i < ALL_MAPS.length; i++) {
-        var lookup = ALL_MAPS[i];
+      if (
+        locale &&
+        typeof SPECIFIC_MAPS[locale as SpecifiedMapKey] === "object"
+      )
+        ALL_MAPS.push(SPECIFIC_MAPS[locale as SpecifiedMapKey]);
 
-        for (const c in lookup) {
-          if (lookup.hasOwnProperty(c)) {
+      for (let i = 0; i < ALL_MAPS.length; i += 1) {
+        const lookup = ALL_MAPS[i];
+
+        Object.keys(lookup).forEach(c => {
+          if (Object.prototype.hasOwnProperty.call(lookup, c)) {
             this.map[c] = lookup[c];
           }
-        }
+        });
       }
 
-      for (const k in this.map) {
-        if (this.map.hasOwnProperty(k)) this.chars.push(k);
-      }
+      Object.keys(this.map).forEach(k => {
+        if (Object.prototype.hasOwnProperty.call(this.map, k))
+          this.chars.push(k);
+      });
 
       this.regex = new RegExp(this.chars.join("|"), "g");
     }
 
     private removeStopWords(string: string) {
-      if (this.options.removeStopWords !== true) return string;
+      if (this.slugOptions.removeStopWords !== true) return string;
 
       const regex = new RegExp(`\b(${removeList.join("|")})\b`, "gi");
       return string.replace(regex, "");

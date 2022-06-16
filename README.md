@@ -21,18 +21,7 @@ A link shortener created to shorten links and track clicks sources.
 
 ## Usage
 
-### Clone it
-
-```bash
-# SSH
-git clone git@github.com:omareloui/Links.git
-
-# HTTPS
-git cone https://github.com/omareloui/Links.git
-
-# Github CLI
-gh repo clone omareloui/Links
-```
+After cloning it
 
 ### Go into the project directory
 

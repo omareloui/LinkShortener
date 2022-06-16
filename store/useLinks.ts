@@ -14,21 +14,30 @@ export const useLinksStore = defineStore("links", {
     async fetchLinks() {
       const { data, error } = await useFetch("/api/links");
       if (error.value) return;
-      this.links = data.value;
+      this.links = data.value as Link[];
     },
 
-    async create(body: CreateLink) {
+    async create(input: CreateLink) {
+      const requestBody: CreateLink = {
+        url: input.url,
+      };
+
       const slugHelper = useSlugHelper();
 
-      body.slug &&= slugHelper.create(body.slug);
+      if (input.slug) requestBody.slug = slugHelper.create(input.slug);
 
-      const { data, error } = await useFetch("/api/create", {
+      const { data, error } = await useFetch("/api/links", {
         method: "POST",
-        body,
+        body: requestBody,
       });
 
       if (error.value) {
-        const { message } = error.value.data;
+        let message: string;
+
+        if (error.value === true)
+          message = "You have to change something and try again!";
+        else message = error.value.message;
+
         throw new Error(message);
       }
 
@@ -37,12 +46,9 @@ export const useLinksStore = defineStore("links", {
     },
 
     async remove(link: Link) {
-      const { data, error } = await useFetch(
-        `/api/links/delete?id=${link._id}`,
-        {
-          method: "DELETE",
-        }
-      );
+      const { data, error } = await useFetch(`/api/links/${link._id}`, {
+        method: "DELETE",
+      });
 
       const res = data.value as { ok: boolean };
 

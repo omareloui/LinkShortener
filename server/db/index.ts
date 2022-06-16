@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import { config } from "../config";
 
 export const connect = () =>
+  // eslint-disable-next-line consistent-return
   new Promise((res, rej) => {
     if (mongoose.connection.readyState === 1) return res(true);
 

@@ -561,7 +561,7 @@ export function useSlugLanguagesMap() {
     AZERBAIJANI_MAP,
     ROMANIAN_MAP,
     BELARUSIAN_MAP,
-  ];
+  ] as { [K in string]: string }[];
 
   return { ALL_MAPS, SPECIFIC_MAPS };
 }
