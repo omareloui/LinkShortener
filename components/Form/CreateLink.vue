@@ -6,6 +6,7 @@ const linksStore = useLinksStore();
 
 const notify = useNotify();
 const slugHelper = useSlugHelper();
+const getErrorMessage = useGetErrorMessage();
 
 const url = ref("");
 const slug = ref("");
@@ -33,19 +34,6 @@ watch(slug, () => {
 function emptyForm() {
   url.value = "";
   slug.value = "";
-}
-
-function isError(e: unknown): e is Error {
-  return (
-    e !== null &&
-    typeof e === "object" &&
-    (e as { name?: string }).name === "Error"
-  );
-}
-
-function getErrorMessage(e: unknown): string {
-  if (!isError(e)) return "Unknown error message";
-  return e.message;
 }
 
 function setError(message: string) {

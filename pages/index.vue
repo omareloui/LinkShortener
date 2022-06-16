@@ -1,5 +1,5 @@
 <script setup lang="ts">
-useMeta({ title: "Omar Eloui Links" });
+useHead({ title: "Omar Eloui Links" });
 </script>
 
 <template>

@@ -11,7 +11,7 @@ const copy = useCopy();
 const clicksCounter = useClicksCounter();
 
 async function removeLink(link: Link) {
-  const isConfirmed = await confirm(
+  const isConfirmed = await window.confirm(
     `Are you sure you want to remove /${link.slug}`
   );
   if (!isConfirmed) return;
@@ -20,19 +20,19 @@ async function removeLink(link: Link) {
     await linksStore.remove(link);
     notify.success("Removed link.");
   } catch (e) {
-    notify.error(e.message);
+    notify.error(useGetErrorMessage()(e));
   }
 }
 
 function copyLink(slug: string) {
-  copy(`${location.origin}/${slug}?s=ls`);
+  copy(`${window.location.origin}/${slug}?s=links`);
 }
 </script>
 
 <template>
   <div class="link">
     <div class="link__clicks" :title="clicksCounter(link)">
-      <span>{{ link.clicks }}</span>
+      <span>{{ link.visits?.length || 0 }}</span>
     </div>
 
     <div class="link__text">
