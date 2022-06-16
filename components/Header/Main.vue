@@ -1,3 +1,9 @@
+<script setup lang="ts">
+import { useLayoutStore } from "~~/store/useLayout";
+
+const layoutStore = useLayoutStore();
+</script>
+
 <template>
   <header>
     <div class="brand">
@@ -6,6 +12,14 @@
       </div>
 
       <h1>omareloui links</h1>
+    </div>
+    <div class="sign">
+      <ButtonBase
+        is-normalized
+        class="sign__button"
+        @click="layoutStore.openSignForm"
+        >Sign</ButtonBase
+      >
     </div>
   </header>
 </template>
@@ -31,4 +45,14 @@ header
       +fs-base
       +mt(5px)
       +no-wrap
+  .sign
+    +e(button)
+      +brdr(text-main, 2px)
+      +pa(4px 25px)
+      +br-md
+      +fs-base
+      +clr-txt
+      +tran(background, 200ms)
+      &:hover
+        +clr-bg(main, 0.2)
 </style>
