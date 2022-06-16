@@ -1,10 +1,10 @@
 {
   "private": true,
   "scripts": {
-    "dev": "nuxi dev",
+    "dev": "cross-env NODE_ENV=dev nuxi dev",
     "build": "nuxi build",
-    "start": "node .output/server/index.mjs",
-    "test": "nuxi test",
+    "start": "cross-env NODE_ENV=production node .output/server/index.mjs",
+    "test": "cross-env NODE_ENV=test nuxi test",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "lint:check": "eslint --print-config .eslintrc.json",
@@ -34,6 +34,7 @@
   "dependencies": {
     "@pinia/nuxt": "^0.1.8",
     "cookie-universal": "^2.1.5",
+    "cross-env": "^7.0.3",
     "dotenv": "^16.0.1",
     "mongoose": "^6.3.8",
     "nanoid": "^4.0.0",
