@@ -3,7 +3,7 @@ useHead({ title: "Redirecting | Omar Eloui Links" });
 
 definePageMeta({ layout: false });
 
-function redirect() {
+async function redirect() {
   const route = useRoute();
   const { slug } = route.params;
   const { s, source } = route.query;
@@ -11,7 +11,9 @@ function redirect() {
   let link = `/api/visit/${slug}`;
   if (s || source) link += `?source=${s || source}`;
 
-  window.location.replace(link);
+  const url = await $fetch(link);
+
+  window.location.replace(url as string);
 }
 
 onBeforeMount(redirect);

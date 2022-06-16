@@ -4,7 +4,7 @@ import { Link } from "~~/server/models";
 import { LinkSchema, IpApiSchema } from "~~/server/validate";
 import { handlerError } from "~~/server/utils";
 
-import type { CreateLink, LinkVisit } from "~~/@types";
+import type { CreateLink, LinkVisit, Link as LinkInterface } from "~~/@types";
 import { useSlugHelper } from "~~/composables/useSlugHelper";
 
 const slugHelper = useSlugHelper();
@@ -23,9 +23,7 @@ export class LinkController {
       params: { slug },
     } = context;
 
-    const { source } = useQuery(event) as {
-      source?: string;
-    };
+    const { source, s } = useQuery(event) as { source?: string; s?: string };
 
     const link = await Link.findOne({ slug: slug.toLowerCase() });
 
@@ -36,28 +34,14 @@ export class LinkController {
       });
 
     const ip = req.headers["x-forwarded-for"] as string;
+    this.saveVisit(ip, link, source || s);
 
-    const visit: LinkVisit = {
-      ip,
-      at: new Date(),
-    };
+    return link.url;
+  });
 
-    const location = await this.getLocation(ip);
-
-    if (location)
-      visit.location = {
-        type: "Point",
-        coordinates: [location.longitude, location.latitude],
-      };
-
-    const normalizedSource = source && slugHelper.create(source);
-    if (source && normalizedSource) visit.source = normalizedSource;
-
-    link.visits = link.visits ? [...link.visits, visit] : [visit];
-
-    await link.save();
-
-    return sendRedirect(event, link.url);
+  static redirect = defineEventHandler(async event => {
+    const url = await this.visit(event);
+    return sendRedirect(event, url);
   });
 
   static create = defineEventHandler(async event => {
@@ -113,5 +97,28 @@ export class LinkController {
     } catch (e) {
       return null;
     }
+  }
+
+  private static async saveVisit(
+    ip: string,
+    link: LinkInterface,
+    source: string | undefined
+  ) {
+    const visit: LinkVisit = {
+      ip,
+      at: new Date(),
+    };
+
+    const location = await this.getLocation(ip);
+    if (location)
+      visit.location = {
+        type: "Point",
+        coordinates: [location.longitude, location.latitude],
+      };
+    const normalizedSource = source && slugHelper.create(source);
+    if (source && normalizedSource) visit.source = normalizedSource;
+    // eslint-disable-next-line no-param-reassign
+    link.visits = link.visits ? [...link.visits, visit] : [visit];
+    link.save();
   }
 }
