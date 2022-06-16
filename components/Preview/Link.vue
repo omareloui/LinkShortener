@@ -25,7 +25,7 @@ async function removeLink(link: Link) {
 }
 
 function copyLink(slug: string) {
-  copy(`${window.location.origin}/${slug}?s=links`);
+  copy(`${window.location.origin}${useUrl(slug)}`);
 }
 </script>
 
@@ -36,7 +36,9 @@ function copyLink(slug: string) {
     </div>
 
     <div class="link__text">
-      <div class="link__slug">/{{ link.slug }}</div>
+      <div class="link__slug">
+        <NuxtLink :to="useUrl(link)">/{{ link.slug }}</NuxtLink>
+      </div>
       <div class="link__url">{{ link.url }}</div>
     </div>
 
@@ -113,6 +115,9 @@ function copyLink(slug: string) {
 
   +e(slug)
     +fw-semibold
+    a
+      +no-underline
+      +clr-txt(invert)
 
   +e(actions)
     +grid($gap: 10px, $center: true, $columns: repeat(2, 1fr))

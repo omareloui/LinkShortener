@@ -1,5 +1,5 @@
-export interface APIError {
-  message: string;
-  status: number;
-  stack?: string;
+export interface RequestError extends Error {
+  data: {
+    message: string;
+  };
 }
