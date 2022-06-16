@@ -17,15 +17,15 @@ const LinkSchema = new Schema<DehydratedLink>(
     visits: [
       {
         _id: false,
+        source: { type: String },
         ip: { type: String, required: true },
         location: {
-          type: { type: String, default: "Point", enum: ["Point"] },
-          coordinates: { type: [Number], required: true },
+          type: { type: String, enum: ["Point"], default: "Point" },
+          coordinates: { type: [Number] },
         },
         at: { type: Date, required: true },
       },
     ],
-    sources: { type: Schema.Types.Mixed },
   },
   { timestamps: true }
 );

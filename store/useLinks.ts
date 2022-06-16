@@ -1,5 +1,5 @@
 import { defineStore, acceptHMRUpdate } from "pinia";
-import { CreateLink, Link } from "~~/@types";
+import { CreateLink, Link, RequestError } from "~~/@types";
 
 import { useSlugHelper } from "~~/composables/useSlugHelper";
 
@@ -36,7 +36,7 @@ export const useLinksStore = defineStore("links", {
 
         if (error.value === true)
           message = "You have to change something and try again!";
-        else message = error.value.message;
+        else message = (error.value as RequestError).data.message;
 
         throw new Error(message);
       }

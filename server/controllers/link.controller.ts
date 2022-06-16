@@ -1,11 +1,13 @@
 import { nanoid } from "nanoid";
 
 import { Link } from "~~/server/models";
-import { LinkSchema } from "~~/server/validate";
+import { LinkSchema, IpApiSchema } from "~~/server/validate";
 import { handlerError } from "~~/server/utils";
 
-import type { CreateLink } from "~~/@types";
+import type { CreateLink, LinkVisit } from "~~/@types";
 import { useSlugHelper } from "~~/composables/useSlugHelper";
+
+const slugHelper = useSlugHelper();
 
 export class LinkController {
   private static DEFAULT_SLUG_LENGTH = 5;
@@ -15,43 +17,51 @@ export class LinkController {
     return links;
   });
 
-  // static visit = defineEventHandler(async event => {
-  //   console.log(event.context.params);
+  static visit = defineEventHandler(async event => {
+    const { req, context } = event;
+    const {
+      params: { slug },
+    } = context;
 
-  //   const { slug, source } = useQuery(event) as {
-  //     slug: string;
-  //     source?: string;
-  //   };
+    const { source } = useQuery(event) as {
+      source?: string;
+    };
 
-  //   const link = await Link.findOne({ slug: slug.toLowerCase() });
+    const link = await Link.findOne({ slug: slug.toLowerCase() });
 
-  //   if (!link)
-  //     throw createError({
-  //       message: "Can't find the requested URL.",
-  //       statusCode: 404,
-  //     });
+    if (!link)
+      throw createError({
+        message: "Can't find the requested URL.",
+        statusCode: 404,
+      });
 
-  //   if (source) {
-  //     const slugHelper = useSlugHelper();
+    const ip = req.headers["x-forwarded-for"] as string;
 
-  //     const linkSources = { ...(link.sources || {}) };
-  //     const normalizedSource = slugHelper.create(source);
-  //     const currentValue = linkSources[normalizedSource];
+    const visit: LinkVisit = {
+      ip,
+      at: new Date(),
+    };
 
-  //     linkSources[normalizedSource] = currentValue ? currentValue + 1 : 1;
-  //     link.sources = linkSources;
-  //   }
+    const location = await this.getLocation(ip);
 
-  //   link.clicks += 1;
+    if (location)
+      visit.location = {
+        type: "Point",
+        coordinates: [location.longitude, location.latitude],
+      };
 
-  //   await link.save();
+    const normalizedSource = source && slugHelper.create(source);
+    if (source && normalizedSource) visit.source = normalizedSource;
 
-  //   return sendRedirect(event, link.url);
-  // });
+    link.visits = link.visits ? [...link.visits, visit] : [visit];
+
+    await link.save();
+
+    return sendRedirect(event, link.url);
+  });
 
   static create = defineEventHandler(async event => {
     const body: CreateLink = await useBody(event);
-    const slugHelper = useSlugHelper();
 
     body.slug ||= nanoid(this.DEFAULT_SLUG_LENGTH);
     body.slug = slugHelper.create(body.slug);
@@ -90,4 +100,18 @@ export class LinkController {
 
     return { ok: true };
   });
+
+  // ======= utils ======= //
+  private static async getLocation(ip: string) {
+    try {
+      const res = await $fetch(`https://ipapi.co/${ip}/json`);
+      const validatedRes = IpApiSchema.pick({
+        latitude: true,
+        longitude: true,
+      }).parse(res);
+      return validatedRes;
+    } catch (e) {
+      return null;
+    }
+  }
 }

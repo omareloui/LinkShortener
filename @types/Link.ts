@@ -1,22 +1,20 @@
 import type { Document } from "mongoose";
 
-export interface Visit {
-  ip: number;
-  location: {
+export interface LinkVisit {
+  ip: string;
+  location?: {
     type: "Point";
     coordinates: [number, number];
   };
+  source?: string;
   at: Date;
 }
-
-export type LinkSources = Record<string, number>;
 
 export interface DehydratedLink {
   url: string;
   slug: string;
   clicks: number;
-  visits?: Visit[];
-  sources?: LinkSources;
+  visits?: LinkVisit[];
   createdAt: Date;
   updatedAt: Date;
 }

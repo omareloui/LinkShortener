@@ -1,3 +1,3 @@
 import { LinkController } from "~~/server/controllers";
 
-// export default LinkController.visit;
+export default LinkController.visit;

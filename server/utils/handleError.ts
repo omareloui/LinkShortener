@@ -1,4 +1,4 @@
-import { isZodError, isH3Error } from ".";
+import { isZodError, isH3Error, isError } from ".";
 
 export function handlerError(error: unknown): never {
   if (isZodError(error))
@@ -12,8 +12,10 @@ export function handlerError(error: unknown): never {
       ...error,
     });
 
+  if (isError(error)) throw createError(error);
+
   throw createError({
-    message: `${error}`,
+    message: `Unknown Error Type: ${error}`,
     statusCode: 500,
   });
 }

@@ -1,20 +1,20 @@
 <script setup lang="ts">
-useMeta({ title: "Redirecting | Omar Eloui Links" });
+useHead({ title: "Redirecting | Omar Eloui Links" });
 
 definePageMeta({ layout: false });
-
-onBeforeMount(redirect);
 
 function redirect() {
   const route = useRoute();
   const { slug } = route.params;
-  const { s } = route.query;
+  const { s, source } = route.query;
 
-  let link = `/api/visit?slug=${slug}`;
-  if (s) link += `&source=${s}`;
+  let link = `/api/visit/${slug}`;
+  if (s || source) link += `?source=${s || source}`;
 
-  location.replace(link);
+  window.location.replace(link);
 }
+
+onBeforeMount(redirect);
 </script>
 
 <template>

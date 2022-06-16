@@ -18,7 +18,7 @@ export function useCopy() {
       textarea.setSelectionRange(0, 99999);
 
       return new Promise(res => {
-        navigator.clipboard.writeText(textarea.value);
+        document.execCommand("copy");
         textarea.remove();
         res(true);
       });
