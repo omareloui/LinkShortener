@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import { useAuthStore } from "~~/store/useAuth";
 import { useLayoutStore } from "~~/store/useLayout";
 
+const authStore = useAuthStore();
 const layoutStore = useLayoutStore();
 </script>
 
@@ -13,7 +15,7 @@ const layoutStore = useLayoutStore();
 
       <h1>omareloui links</h1>
     </div>
-    <div class="sign">
+    <div class="sign" v-if="!authStore.isSigned">
       <ButtonBase
         is-normalized
         class="sign__button"
@@ -30,6 +32,7 @@ const layoutStore = useLayoutStore();
 
 header
   +flex($center: true, $space-between: true)
+  +mb(20px)
 
   .brand
     +flex($gap: 5px)

@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import type { Link } from "~~/@types";
 import { useLinksStore } from "~~/store/useLinks";
+import { useAuthStore } from "~~/store/useAuth";
 
 defineProps<{ link: Link }>();
 
 const linksStore = useLinksStore();
+const authStore = useAuthStore();
 
 const notify = useNotify();
 const copy = useCopy();
@@ -31,7 +33,11 @@ function copyLink(slug: string) {
 
 <template>
   <div class="link">
-    <div class="link__clicks" :title="clicksCounter(link)">
+    <div
+      class="link__clicks"
+      :title="clicksCounter(link)"
+      v-if="authStore.isSigned"
+    >
       <span>{{ link.visits?.length || 0 }}</span>
     </div>
 
@@ -52,6 +58,7 @@ function copyLink(slug: string) {
         <IconCopy class="button__icon" color="var(--clr-text-invert)" />
       </ButtonBase>
       <ButtonBase
+        v-if="authStore.isSigned"
         class="button button--delete"
         is-normalized
         @click="removeLink(link)"
@@ -120,7 +127,8 @@ function copyLink(slug: string) {
       +clr-txt(invert)
 
   +e(actions)
-    +grid($gap: 10px, $center: true, $columns: repeat(2, 1fr))
+    +flex($gap: 10px, $center: true)
+    justify-content: end
 
     .button
       +size(18px)

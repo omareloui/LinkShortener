@@ -1,10 +1,11 @@
-import { useIsError } from "./useIsError";
+import { useGetErrorType } from "./useGetErrorType";
 
-const isError = useIsError();
+const getErrorType = useGetErrorType();
 
 export function useGetErrorMessage() {
   return function getErrorMessage(e: unknown): string {
-    if (!isError(e)) return "Unknown error message";
-    return e.message;
+    if (getErrorType.isError(e)) return e.message;
+    if (getErrorType.isFetchError(e)) return e.data.message;
+    return "Unknown error message";
   };
 }

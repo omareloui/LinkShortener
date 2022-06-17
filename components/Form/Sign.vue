@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { useLayoutStore } from "~~/store/useLayout";
+import { useAuthStore } from "~~/store/useAuth";
 
 const layoutStore = useLayoutStore();
+const authStore = useAuthStore();
 
 const notify = useNotify();
 const getErrorMessage = useGetErrorMessage();
@@ -30,17 +32,17 @@ function setError(message: string) {
 
 async function onSubmit() {
   try {
-    // isLoading.value = true;
-    // await linksStore.create(body);
-    // emptyForm();
-    // notify.success("Created the link.");
+    isLoading.value = true;
+    await authStore.sign(key.value);
+    emptyForm();
+    notify.success("Signed in successfully");
+    layoutStore.isSignFormOpen = false;
   } catch (e) {
-    // const message = getErrorMessage(e);
-    // setError(message);
-    // notify.error(message);
-    // return;
+    const message = getErrorMessage(e);
+    setError(message);
+    notify.error(message);
   } finally {
-    // isLoading.value = false;
+    isLoading.value = false;
   }
 }
 </script>

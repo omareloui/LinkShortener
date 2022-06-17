@@ -3,6 +3,7 @@ import { nanoid } from "nanoid";
 import { Link } from "~~/server/models";
 import { LinkSchema, IpApiSchema } from "~~/server/validate";
 import { handlerError } from "~~/server/utils";
+import { hasToBeAuthenticated } from "~~/server/policies";
 
 import type { CreateLink, LinkVisit, Link as LinkInterface } from "~~/@types";
 import { useSlugHelper } from "~~/composables/useSlugHelper";
@@ -45,6 +46,8 @@ export class LinkController {
   });
 
   static create = defineEventHandler(async event => {
+    hasToBeAuthenticated(event);
+
     const body: CreateLink = await useBody(event);
 
     body.slug ||= nanoid(this.DEFAULT_SLUG_LENGTH);
@@ -69,6 +72,7 @@ export class LinkController {
   });
 
   static delete = defineEventHandler(async event => {
+    hasToBeAuthenticated(event);
     const { context } = event;
     const { id } = context.params;
 

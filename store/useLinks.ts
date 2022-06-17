@@ -52,8 +52,7 @@ export const useLinksStore = defineStore("links", {
 
       const res = data.value as { ok: boolean };
 
-      if (error.value || !res.ok)
-        throw new Error("Something went wrong, please try again later.");
+      if (error.value || !res.ok) throw error.value;
 
       this.links = this.links.filter(l => l._id !== link._id);
     },

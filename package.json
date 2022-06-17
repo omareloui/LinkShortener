@@ -12,6 +12,7 @@
   },
   "devDependencies": {
     "@nuxt/test-utils-edge": "3.0.0-rc.3-27579668.27a0084",
+    "@types/jsonwebtoken": "^8.5.8",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
     "eslint": "^7.32.0",
@@ -36,6 +37,7 @@
     "cookie-universal": "^2.1.5",
     "cross-env": "^7.0.3",
     "dotenv": "^16.0.1",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.3.8",
     "nanoid": "^4.0.0",
     "pinia": "^2.0.9",
