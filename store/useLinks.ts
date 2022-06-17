@@ -2,6 +2,7 @@ import { defineStore, acceptHMRUpdate } from "pinia";
 import { CreateLink, Link, RequestError } from "~~/@types";
 
 import { useSlugHelper } from "~~/composables/useSlugHelper";
+import { useTokenedFetch } from "~~/composables/useTokenedFetch";
 
 export const useLinksStore = defineStore("links", {
   state: () => ({
@@ -26,33 +27,21 @@ export const useLinksStore = defineStore("links", {
 
       if (input.slug) requestBody.slug = slugHelper.create(input.slug);
 
-      const { data, error } = await useFetch("/api/links", {
+      const link = (await useTokenedFetch("/api/links", {
         method: "POST",
         body: requestBody,
-      });
+      })) as Link;
 
-      if (error.value) {
-        let message: string;
-
-        if (error.value === true)
-          message = "You have to change something and try again!";
-        else message = (error.value as RequestError).data.message;
-
-        throw new Error(message);
-      }
-
-      const newLink = data.value as Link;
-      this.links.unshift(newLink);
+      this.links.unshift(link);
     },
 
     async remove(link: Link) {
-      const { data, error } = await useFetch(`/api/links/${link._id}`, {
+      const res = (await useTokenedFetch(`/api/links/${link._id}`, {
         method: "DELETE",
-      });
+      })) as { ok: boolean };
 
-      const res = data.value as { ok: boolean };
-
-      if (error.value || !res.ok) throw error.value;
+      if (!res.ok)
+        throw new Error("Something went wrong, please try again later.");
 
       this.links = this.links.filter(l => l._id !== link._id);
     },

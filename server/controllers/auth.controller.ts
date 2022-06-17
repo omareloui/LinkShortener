@@ -18,6 +18,16 @@ export class AuthController {
 
     const token = jwt.sign({}, jwtSecret, { expiresIn: jwtExpiresIn });
 
-    return { token };
+    return { body: token, expiresIn: jwtExpiresIn };
+  });
+
+  static refreshToken = defineEventHandler(async event => {
+    const { context } = event;
+    if (context.isAuthed)
+      return {
+        body: jwt.sign({}, jwtSecret, { expiresIn: jwtExpiresIn }),
+        expiresIn: jwtExpiresIn,
+      };
+    return {};
   });
 }

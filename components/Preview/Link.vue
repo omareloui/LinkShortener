@@ -128,7 +128,7 @@ function copyLink(slug: string) {
 
   +e(actions)
     +flex($gap: 10px, $center: true)
-    justify-content: end
+    justify-content: flex-end
 
     .button
       +size(18px)
