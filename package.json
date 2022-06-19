@@ -1,8 +1,8 @@
 {
   "private": true,
   "engines": {
-    "npm": ">=8.0.0",
-    "node": ">=16.0.0"
+    "npm": "8.0.0",
+    "node": "16.11.1"
   },
   "scripts": {
     "dev": "cross-env NODE_ENV=dev nuxi dev",
@@ -15,7 +15,6 @@
     "format": "prettier --write \"{,!(node_modules|.nuxt|.output)/**/}*.{[t|j]s,vue,scss}\""
   },
   "devDependencies": {
-    "@nuxt/test-utils-edge": "3.0.0-rc.3-27579668.27a0084",
     "@types/jsonwebtoken": "^8.5.8",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
