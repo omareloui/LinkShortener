@@ -1,6 +1,6 @@
 # Omar Eloui Links
 
-![Logo image](/public/heading.png)
+![Logo image](/public/images/heading.png)
 
 A link shortener created to shorten links and track clicks sources.
 
