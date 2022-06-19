@@ -1,5 +1,5 @@
 import { defineStore, acceptHMRUpdate } from "pinia";
-import { CreateLink, Link, RequestError } from "~~/@types";
+import { CreateLink, Link } from "~~/@types";
 
 import { useSlugHelper } from "~~/composables/useSlugHelper";
 import { useTokenedFetch } from "~~/composables/useTokenedFetch";
@@ -7,15 +7,25 @@ import { useTokenedFetch } from "~~/composables/useTokenedFetch";
 export const useLinksStore = defineStore("links", {
   state: () => ({
     links: [] as Link[],
+    preview: [] as Link[],
   }),
-
-  getters: {},
 
   actions: {
     async fetchLinks() {
       const { data, error } = await useFetch("/api/links");
       if (error.value) return;
       this.links = data.value as Link[];
+      this.preview = this.links;
+    },
+
+    search(query: string) {
+      if (!query) {
+        this.preview = this.links;
+        return;
+      }
+      this.preview = this.links.filter(
+        l => l.url.split("//")[1].match(query) || `/${l.slug}`.match(query)
+      );
     },
 
     async create(input: CreateLink) {
@@ -33,6 +43,7 @@ export const useLinksStore = defineStore("links", {
       })) as Link;
 
       this.links.unshift(link);
+      this.preview = this.links;
     },
 
     async remove(link: Link) {
@@ -44,6 +55,7 @@ export const useLinksStore = defineStore("links", {
         throw new Error("Something went wrong, please try again later.");
 
       this.links = this.links.filter(l => l._id !== link._id);
+      this.preview = this.links;
     },
   },
 });

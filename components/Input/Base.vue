@@ -10,7 +10,12 @@ const content = useModelWrapper(props, emit);
 </script>
 
 <template>
-  <input type="text" v-model="content" @input="emit('input')" />
+  <input
+    type="text"
+    v-model="content"
+    @input="emit('input')"
+    :class="{ large: isLarge }"
+  />
 </template>
 
 <style scoped lang="sass">
@@ -28,4 +33,5 @@ input
   &.large
     +fs-lg
     +fw-bold
+    +px(20px)
 </style>

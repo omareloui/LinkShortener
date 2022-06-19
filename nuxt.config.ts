@@ -4,6 +4,14 @@ import { defineNuxtConfig } from "nuxt";
 export default defineNuxtConfig({
   typescript: { shim: false, strict: true },
 
+  runtimeConfig: {
+    public: {
+      env: process.env.NODE_ENV,
+      isProd: process.env.NODE_ENV === "production",
+      isDev: process.env.NODE_ENV === "development",
+    },
+  },
+
   meta: {
     title: "Links | Omar Eloui",
 
