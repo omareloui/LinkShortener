@@ -3,15 +3,12 @@ import { z } from "zod";
 type NodeEnv = "production" | "development";
 const nodeEnv: NodeEnv = (process.env.NODE_ENV as NodeEnv | undefined) || "development";
 
-const keyMinLength = 32;
-
 const ZConfig = z.object({
   nodeEnv: z.enum(["production", "development"]),
   isProd: z.boolean(),
   isDev: z.boolean(),
   dbLink: z.string(),
-  key: z.string().min(keyMinLength),
-  keyMinLength: z.number(),
+  hashedKey: z.string(),
   jwtPrefix: z.string(),
   jwtSecret: z.string(),
   jwtExpiresIn: z.string().or(z.number()),
@@ -19,7 +16,7 @@ const ZConfig = z.object({
 
 type ZConfig = z.infer<typeof ZConfig>;
 
-const key = process.env.KEY;
+const hashedKey = process.env.HASHED_KEY;
 const jwtPrefix = process.env.JWT_SECRET;
 
 const config = ZConfig.parse({
@@ -27,10 +24,9 @@ const config = ZConfig.parse({
   isProd: nodeEnv === "production",
   isDev: nodeEnv === "development",
   dbLink: process.env.DB_URI,
-  key,
-  keyMinLength: 32,
+  hashedKey,
   jwtPrefix,
-  jwtSecret: `${jwtPrefix}.${key}`,
+  jwtSecret: `${jwtPrefix}.${hashedKey}`,
   jwtExpiresIn: process.env.TOKEN_EXPIRES_IN || "5d",
 });
 

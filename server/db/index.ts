@@ -2,11 +2,13 @@ import mongoose from "mongoose";
 import { config } from "../config";
 
 export const connect = () =>
-  new Promise((res, rej) => {
+  new Promise(async (res, rej) => {
     if (mongoose.connection.readyState === 1) return res(true);
 
-    mongoose.connect(config.dbLink, err => {
-      if (err) return rej(err);
+    try {
+      await mongoose.connect(config.dbLink);
       return res(true);
-    });
+    } catch (e) {
+      return rej(e);
+    }
   });

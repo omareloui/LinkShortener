@@ -1,3 +1,5 @@
 import { connect } from "~~/server/db";
 
-export default eventHandler(connect);
+export default eventHandler(async () => {
+  await connect();
+});

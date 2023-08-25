@@ -13,13 +13,22 @@ const slugHelper = useSlugHelper();
 class LinkController {
   private DEFAULT_SLUG_LENGTH = 5;
 
-  getAll = eventHandler(async () => {
+  getAll = eventHandler(async event => {
     const links = await Link.find().sort("-createdAt").exec();
-    return links;
+
+    const { context } = event;
+    if (context.isAuthed) return links;
+
+    return links.map(link => {
+      const _link = link.toJSON();
+      delete _link.visits;
+      delete _link.clicks;
+      return _link;
+    });
   });
 
   visit = eventHandler(async event => {
-    const { context } = event;
+    const { context, node } = event;
     const { slug } = context.params!;
 
     const { source, s } = getQuery(event) as { source?: string; s?: string };
@@ -32,10 +41,15 @@ class LinkController {
         statusCode: 404,
       });
 
-    const ip = context.req.headers["x-forwarded-for"] as string;
-    this.saveVisit(ip, link, source || s);
+    const ip = node.req.headers["x-forwarded-for"] as string;
+    await this.saveVisit(ip, link, source || s);
 
-    return link;
+    if (context.isAuthed) return link;
+
+    const _link = link.toJSON();
+    delete _link.visits;
+    delete _link.clicks;
+    return _link;
   });
 
   redirect = eventHandler(async event => {
@@ -89,11 +103,13 @@ class LinkController {
     };
 
     const location = await this.getLocation(ip);
-    if (location)
+    if (location) {
+      visit.ip = location.ip;
       visit.location = {
         type: "Point",
         coordinates: [location.longitude, location.latitude],
       };
+    }
     const normalizedSource = source && slugHelper.create(source);
     if (source && normalizedSource) visit.source = normalizedSource;
     link.visits = link.visits ? [...link.visits, visit] : [visit];
@@ -102,8 +118,12 @@ class LinkController {
 
   private async getLocation(ip: string) {
     try {
-      const res = await $fetch(`https://ipapi.co/${ip}/json`);
+      const API_ENDPOINT = "https://ipapi.co";
+      if (["::1", "127.0.0.1"].includes(ip)) ip = "";
+      const res = await $fetch(`${API_ENDPOINT}/${ip}/json`);
+      console.log();
       const validatedRes = ZIpApi.pick({
+        ip: true,
         latitude: true,
         longitude: true,
       }).parse(res);

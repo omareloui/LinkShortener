@@ -13,7 +13,7 @@ export type LinkVisit = {
 export type DehydratedLink = {
   url: string;
   slug: string;
-  clicks: number;
+  clicks?: number;
   visits?: LinkVisit[];
   createdAt: Date;
   updatedAt: Date;

@@ -11,9 +11,8 @@ function verify(token: string) {
 }
 
 export default eventHandler(event => {
-  const { context } = event;
-  const token = (context.req.headers.authorization as string | undefined)?.split("Bearer ")[1];
-
+  const { context, node } = event;
+  const token = (node.req.headers.authorization as string | undefined)?.split("Bearer ")[1];
   if (token) {
     const isValid = verify(token);
     if (isValid) context.isAuthed = true;

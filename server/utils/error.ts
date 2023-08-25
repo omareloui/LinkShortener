@@ -17,7 +17,8 @@ export function errorHandler(error: unknown): never {
   if (isZodError(error))
     throw createError({
       message: error.message,
-      statusCode: 404,
+      statusCode: 422,
+      statusMessage: "Unprocessable Entity",
     });
 
   if (isH3Error(error) || isNormalError(error)) throw createError(error);
@@ -25,5 +26,6 @@ export function errorHandler(error: unknown): never {
   throw createError({
     message: `Unknown Error Type: ${error}`,
     statusCode: 500,
+    statusMessage: "Internal Server Error",
   });
 }
