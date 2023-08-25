@@ -10,11 +10,9 @@ function verify(token: string) {
   }
 }
 
-export default defineEventHandler(event => {
-  const { req, context } = event;
-  const token = (req.headers.authorization as string | undefined)?.split(
-    "Bearer "
-  )[1];
+export default eventHandler(event => {
+  const { context } = event;
+  const token = (context.req.headers.authorization as string | undefined)?.split("Bearer ")[1];
 
   if (token) {
     const isValid = verify(token);

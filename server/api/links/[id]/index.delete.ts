@@ -1,3 +1,3 @@
-import { LinkController } from "~~/server/controllers";
+import { linkController } from "~~/server/controllers";
 
-export default LinkController.delete;
+export default linkController.delete;

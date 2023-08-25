@@ -1,37 +1,37 @@
-import dotenv from "dotenv";
+import { z } from "zod";
 
-dotenv.config();
+type NodeEnv = "production" | "development";
+const nodeEnv: NodeEnv = (process.env.NODE_ENV as NodeEnv | undefined) || "development";
 
-type NodeEnv = "production" | "development" | "test";
+const keyMinLength = 32;
 
-const env: NodeEnv =
-  (process.env.NODE_ENV as NodeEnv | undefined) || "development";
+const ZConfig = z.object({
+  nodeEnv: z.enum(["production", "development"]),
+  isProd: z.boolean(),
+  isDev: z.boolean(),
+  dbLink: z.string(),
+  key: z.string().min(keyMinLength),
+  keyMinLength: z.number(),
+  jwtPrefix: z.string(),
+  jwtSecret: z.string(),
+  jwtExpiresIn: z.string().or(z.number()),
+});
 
-const isProd = env === "production";
-const isDev = env === "development";
-const isTest = env === "test";
+type ZConfig = z.infer<typeof ZConfig>;
 
 const key = process.env.KEY;
-const jwtSecret = process.env.JWT_SECRET;
+const jwtPrefix = process.env.JWT_SECRET;
 
-let dbLink: string | undefined;
-
-if (isProd) dbLink = process.env.DB_URI;
-else if (isTest) dbLink = process.env.DB_URI_TEST;
-
-dbLink ||= process.env.DB_URI_DEV;
-
-if (!dbLink) throw new Error("You have to provide the db uri");
-
-if (!key) throw new Error("You have to provide a key.");
-if (!jwtSecret) throw new Error("You have to provide a secret for the token.");
-
-export const config = {
-  isProd,
-  isDev,
-  isTest,
-  dbLink,
+const config = ZConfig.parse({
+  nodeEnv,
+  isProd: nodeEnv === "production",
+  isDev: nodeEnv === "development",
+  dbLink: process.env.DB_URI,
   key,
-  jwtSecret: `${jwtSecret}.${key}`,
-  jwtExpiresIn: "5d",
-};
+  keyMinLength: 32,
+  jwtPrefix,
+  jwtSecret: `${jwtPrefix}.${key}`,
+  jwtExpiresIn: process.env.TOKEN_EXPIRES_IN || "5d",
+});
+
+export { config };

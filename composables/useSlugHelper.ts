@@ -10,7 +10,7 @@ export function useSlugHelper(
   options: SlugOptions = {
     removeStopWords: false,
     getLocalFromMeta: false,
-  }
+  },
 ) {
   const removeList = useSlugRemoveList();
   const { ALL_MAPS, SPECIFIC_MAPS } = useSlugLanguagesMap();
@@ -24,17 +24,12 @@ export function useSlugHelper(
 
     constructor(public slugOptions: SlugOptions) {
       const locale = slugOptions.getLocalFromMeta
-        ? document
-            ?.querySelector('meta[name="backend-locale"]')
-            ?.getAttribute("content")
+        ? document?.querySelector('meta[name="backend-locale"]')?.getAttribute("content")
         : undefined;
 
       type SpecifiedMapKey = keyof typeof SPECIFIC_MAPS;
 
-      if (
-        locale &&
-        typeof SPECIFIC_MAPS[locale as SpecifiedMapKey] === "object"
-      )
+      if (locale && typeof SPECIFIC_MAPS[locale as SpecifiedMapKey] === "object")
         ALL_MAPS.push(SPECIFIC_MAPS[locale as SpecifiedMapKey]);
 
       for (let i = 0; i < ALL_MAPS.length; i += 1) {
@@ -48,8 +43,7 @@ export function useSlugHelper(
       }
 
       Object.keys(this.map).forEach(k => {
-        if (Object.prototype.hasOwnProperty.call(this.map, k))
-          this.chars.push(k);
+        if (Object.prototype.hasOwnProperty.call(this.map, k)) this.chars.push(k);
       });
 
       this.regex = new RegExp(this.chars.join("|"), "g");

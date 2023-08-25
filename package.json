@@ -1,49 +1,29 @@
 {
+  "name": "nuxt-app",
   "private": true,
-  "engines": {
-    "npm": "8.0.0",
-    "node": "16.11.1"
-  },
   "scripts": {
-    "dev": "cross-env NODE_ENV=development nuxi dev",
-    "build": "nuxi build",
-    "start": "cross-env NODE_ENV=production node .output/server/index.mjs",
-    "test": "cross-env NODE_ENV=test nuxi test",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "lint:check": "eslint --print-config .eslintrc.json",
-    "format": "prettier --write \"{,!(node_modules|.nuxt|.output)/**/}*.{[t|j]s,vue,scss}\""
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
   },
   "devDependencies": {
-    "@types/jsonwebtoken": "^8.5.8",
-    "@typescript-eslint/eslint-plugin": "^5.0.0",
-    "@typescript-eslint/parser": "^5.0.0",
-    "eslint": "^7.32.0",
-    "eslint-config-airbnb": "^18.2.1",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-import": "2",
-    "eslint-plugin-jsx-a11y": "6.4.1",
-    "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-react": "7.21.5",
-    "eslint-plugin-react-hooks": "4",
-    "eslint-plugin-vue": "^7.19.1",
-    "nuxi": "3.0.0-rc.3",
-    "nuxt": "npm:nuxt3@latest",
-    "prettier": "^2.4.1",
-    "sass": "^1.43.2",
-    "sass-loader": "^12.2.0",
-    "typescript": "^4.7.3",
-    "vitest": "^0.14.1"
+    "@nuxt/devtools": "latest",
+    "@types/jsonwebtoken": "^9.0.2",
+    "@types/node": "^18.17.3",
+    "nuxt": "^3.6.5",
+    "prettier": "^3.0.2",
+    "sass": "^1.66.1",
+    "sass-loader": "^13.3.2"
   },
   "dependencies": {
-    "@pinia/nuxt": "^0.1.8",
-    "cookie-universal": "^2.1.5",
-    "cross-env": "^7.0.3",
-    "dotenv": "^16.0.1",
-    "jsonwebtoken": "^8.5.1",
-    "mongoose": "^6.3.8",
-    "nanoid": "^4.0.0",
-    "pinia": "^2.0.9",
-    "zod": "^3.17.3"
+    "@pinia/nuxt": "^0.4.11",
+    "cookie-universal": "^2.2.2",
+    "jsonwebtoken": "^9.0.1",
+    "mongoose": "^7.4.5",
+    "nanoid": "^4.0.2",
+    "pinia": "^2.1.6",
+    "zod": "^3.22.2"
   }
 }

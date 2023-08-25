@@ -1,30 +1,28 @@
 import { nanoid } from "nanoid";
 
 import { Link } from "~~/server/models";
-import { LinkSchema, IpApiSchema } from "~~/server/validate";
-import { handlerError } from "~~/server/utils";
+import { CreateLinkDto, ZIpApi } from "~~/server/validate";
+import { errorHandler } from "~~/server/utils";
 import { hasToBeAuthenticated } from "~~/server/policies";
 
-import type { CreateLink, LinkVisit, Link as LinkInterface } from "~~/@types";
+import type { LinkVisit, Link as LinkInterface } from "~~/types";
 import { useSlugHelper } from "~~/composables/useSlugHelper";
 
 const slugHelper = useSlugHelper();
 
-export class LinkController {
-  private static DEFAULT_SLUG_LENGTH = 5;
+class LinkController {
+  private DEFAULT_SLUG_LENGTH = 5;
 
-  static getAll = defineEventHandler(async () => {
+  getAll = eventHandler(async () => {
     const links = await Link.find().sort("-createdAt").exec();
     return links;
   });
 
-  static visit = defineEventHandler(async event => {
-    const { req, context } = event;
-    const {
-      params: { slug },
-    } = context;
+  visit = eventHandler(async event => {
+    const { context } = event;
+    const { slug } = context.params!;
 
-    const { source, s } = useQuery(event) as { source?: string; s?: string };
+    const { source, s } = getQuery(event) as { source?: string; s?: string };
 
     const link = await Link.findOne({ slug: slug.toLowerCase() });
 
@@ -34,80 +32,57 @@ export class LinkController {
         statusCode: 404,
       });
 
-    const ip = req.headers["x-forwarded-for"] as string;
+    const ip = context.req.headers["x-forwarded-for"] as string;
     this.saveVisit(ip, link, source || s);
 
-    return link.url;
+    return link;
   });
 
-  static redirect = defineEventHandler(async event => {
-    const url = await this.visit(event);
+  redirect = eventHandler(async event => {
+    const { url } = await this.visit(event);
     return sendRedirect(event, url);
   });
 
-  static create = defineEventHandler(async event => {
+  create = eventHandler(async event => {
     hasToBeAuthenticated(event);
 
-    const body: CreateLink = await useBody(event);
+    const body: Partial<CreateLinkDto> = await readBody(event);
 
     body.slug ||= nanoid(this.DEFAULT_SLUG_LENGTH);
     body.slug = slugHelper.create(body.slug);
 
     try {
-      const data = LinkSchema.parse(body);
-
-      const sameSlugLink = await Link.findOne({ slug: data.slug });
-      if (sameSlugLink) {
+      const data = CreateLinkDto.parse(body);
+      const shortenedLink = await Link.create(data);
+      return shortenedLink;
+    } catch (e) {
+      if (e !== null && typeof e === "object" && "code" in e && e.code === 11000)
         throw createError({
           message: "This slug is taken, try another one.",
           statusCode: 409,
         });
-      }
-      const link = new Link(data);
-      await link.save();
-      return link;
-    } catch (e) {
-      return handlerError(e);
+      errorHandler(e);
     }
   });
 
-  static delete = defineEventHandler(async event => {
+  delete = eventHandler(async event => {
     hasToBeAuthenticated(event);
     const { context } = event;
-    const { id } = context.params;
+    const { id } = context.params!;
 
-    const link = await Link.findOne({ _id: id });
+    const deletedLink = await Link.findByIdAndDelete(id);
 
-    if (!link)
+    if (!deletedLink)
       throw createError({
         message: "Can't find the requested URL to remove.",
         statusCode: 404,
       });
 
-    await link.delete();
-
     return { ok: true };
   });
 
   // ======= utils ======= //
-  private static async getLocation(ip: string) {
-    try {
-      const res = await $fetch(`https://ipapi.co/${ip}/json`);
-      const validatedRes = IpApiSchema.pick({
-        latitude: true,
-        longitude: true,
-      }).parse(res);
-      return validatedRes;
-    } catch (e) {
-      return null;
-    }
-  }
-
-  private static async saveVisit(
-    ip: string,
-    link: LinkInterface,
-    source: string | undefined
-  ) {
+  private async saveVisit(ip: string, link: LinkInterface, source: string | undefined) {
     const visit: LinkVisit = {
       ip,
       at: new Date(),
@@ -121,8 +96,22 @@ export class LinkController {
       };
     const normalizedSource = source && slugHelper.create(source);
     if (source && normalizedSource) visit.source = normalizedSource;
-    // eslint-disable-next-line no-param-reassign
     link.visits = link.visits ? [...link.visits, visit] : [visit];
-    link.save();
+    await link.save();
+  }
+
+  private async getLocation(ip: string) {
+    try {
+      const res = await $fetch(`https://ipapi.co/${ip}/json`);
+      const validatedRes = ZIpApi.pick({
+        latitude: true,
+        longitude: true,
+      }).parse(res);
+      return validatedRes;
+    } catch (e) {
+      return null;
+    }
   }
 }
+
+export const linkController = new LinkController();

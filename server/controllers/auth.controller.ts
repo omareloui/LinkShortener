@@ -1,27 +1,27 @@
 import jwt from "jsonwebtoken";
 
 import { config } from "~~/server/config";
+import { SignDto } from "../validate";
+import { errorHandler } from "../utils";
 
 const { key: envKey, jwtSecret, jwtExpiresIn } = config;
 
-export class AuthController {
-  static sign = defineEventHandler(async event => {
-    const { key } = await useBody(event);
+class AuthController {
+  sign = eventHandler(async event => {
+    try {
+      const { key } = SignDto.parse(await readBody(event));
 
-    if (!key)
-      throw createError({
-        message: "You have to provide a key.",
-        statusCode: 422,
-      });
-    if (key !== envKey)
-      throw createError({ message: "Invalid key.", statusCode: 422 });
+      if (key !== envKey) throw createError({ message: "Invalid key.", statusCode: 422 });
 
-    const token = jwt.sign({}, jwtSecret, { expiresIn: jwtExpiresIn });
+      const token = jwt.sign({}, jwtSecret, { expiresIn: jwtExpiresIn });
 
-    return { body: token, expiresIn: jwtExpiresIn };
+      return { body: token, expiresIn: jwtExpiresIn };
+    } catch (e) {
+      errorHandler(e);
+    }
   });
 
-  static refreshToken = defineEventHandler(async event => {
+  refreshToken = eventHandler(async event => {
     const { context } = event;
     if (context.isAuthed)
       return {
@@ -31,3 +31,5 @@ export class AuthController {
     return {};
   });
 }
+
+export const authController = new AuthController();

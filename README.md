@@ -1,52 +1,63 @@
-# Omar Eloui Links
+# Nuxt 3 Minimal Starter
 
-![Logo image](/public/images/heading.png)
+Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
 
-A link shortener created to shorten links and track clicks sources.
+## Setup
 
-## Features
-
-- Shorten links.
-- Create a shorter link with a custom slug.
-- Track clicks’ sources.
-
----
-
-## Requirements
-
-- NodeJS.
-- PNPM.
-
----
-
-## Usage
-
-After cloning it
-
-### Go into the project directory
+Make sure to install the dependencies:
 
 ```bash
-cd Links
+# npm
+npm install
+
+# pnpm
+pnpm install
+
+# yarn
+yarn install
 ```
 
-### Create `.env` file in the root of the project and provide the variables
+## Development Server
 
-#### Expected env file
+Start the development server on `http://localhost:3000`:
 
 ```bash
-DB_URI=
+# npm
+npm run dev
+
+# pnpm
+pnpm run dev
+
+# yarn
+yarn dev
 ```
 
-### Run this command
+## Production
+
+Build the application for production:
 
 ```bash
-pnpm i && pnpm build && pnpm start
+# npm
+npm run build
+
+# pnpm
+pnpm run build
+
+# yarn
+yarn build
 ```
 
-### Open `http://localhost:3000` and enjoy
+Locally preview production build:
 
----
+```bash
+# npm
+npm run preview
 
-## License
+# pnpm
+pnpm run preview
 
-MIT.
+# yarn
+yarn preview
+```
+
+Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
