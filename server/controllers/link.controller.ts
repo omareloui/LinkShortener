@@ -23,7 +23,6 @@ class LinkController {
       const _link = link.toJSON();
       delete _link.visits;
       delete _link.clicks;
-      delete _link.__v;
       return _link;
     });
   });
@@ -47,16 +46,12 @@ class LinkController {
 
     if (context.isAuthed) return link;
 
-    const _link = link.toJSON();
-    delete _link.visits;
-    delete _link.clicks;
-    delete _link.__v;
-    return _link;
+    return link.url;
   });
 
   redirect = eventHandler(async event => {
-    const { url } = await this.visit(event);
-    return sendRedirect(event, url);
+    const url = await this.visit(event);
+    return sendRedirect(event, url as string);
   });
 
   create = eventHandler(async event => {

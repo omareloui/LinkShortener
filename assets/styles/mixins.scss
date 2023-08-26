@@ -1,0 +1,227 @@
+@use "sass:map";
+@use "sass:math";
+@use "sass:list";
+
+@mixin generate-variables($map, $prefix) {
+  @each $name, $value in $map {
+    --#{$prefix}-#{"" + $name}: #{$value};
+  }
+}
+
+// Size {{{
+@mixin size($size) {
+  @if length($size) == 2 {
+    $width: nth($size, 1);
+    $height: nth($size, 2);
+    height: $height;
+    width: $width;
+  }
+
+  @if length($size) == 1 {
+    height: $size;
+    width: $size;
+  }
+}
+
+@mixin dimensions($dimension, $args) {
+  @if not $dimension == width or not $dimension == height {
+    @error "#{$dimension} is invalid dimension value";
+  }
+
+  @if length($args) == 1 {
+    #{$dimension}: $args;
+  } @else if length($args) == 2 {
+    @if not nth($args, 1) == min or not nth($args, 1) == max {
+      @error "#{nth($args, 1)} is invalid width mode";
+    }
+    #{nth($args, 1)}-#{$dimension}: nth($args, 2);
+  }
+}
+
+@mixin w($args) {
+  @include dimensions(width, $args);
+}
+
+@mixin h($args) {
+  @include dimensions(height, $args);
+}
+// }}}
+
+// Media Queries {{{
+$screens: (
+  narrow: 340px,
+  mobile: 480px,
+  tablet: 768px,
+  desktop: 1024px,
+);
+
+@mixin screens {
+  @include generate-variables($screens, "screen");
+}
+
+@mixin screen($size) {
+  @if list.index(map.keys($screens), $size) {
+    @media only screen and (min-width: map.get($screens, $size)) {
+      @content;
+    }
+  } @else {
+    @media only screen and (min-width: $size) {
+      @content;
+    }
+  }
+}
+
+@mixin st-screen($size) {
+  @if list.index(map.keys($screens), $size) {
+    @media only screen and (max-width: map.get($screens, $size)) {
+      @content;
+    }
+  } @else {
+    @media only screen and (max-width: $size) {
+      @content;
+    }
+  }
+}
+
+@mixin narrow-up {
+  @include screen("narrow") {
+    @content;
+  }
+}
+@mixin mobile-up {
+  @include screen("mobile") {
+    @content;
+  }
+}
+@mixin tablet-up {
+  @include screen("tablet") {
+    @content;
+  }
+}
+@mixin desktop-up {
+  @include screen("desktop") {
+    @content;
+  }
+}
+
+@mixin narrow-down {
+  @include st-screen("narrow") {
+    @content;
+  }
+}
+@mixin mobile-down {
+  @include st-screen("mobile") {
+    @content;
+  }
+}
+@mixin tablet-down {
+  @include st-screen("tablet") {
+    @content;
+  }
+}
+@mixin desktop-down {
+  @include st-screen("desktop") {
+    @content;
+  }
+}
+// }}}
+
+/// Styles {{{
+@mixin gradient-shadow($add-position-relative: true, $show-on-hover: true, $animate-on-hover: false, $opacity: 0.4) {
+  @if $add-position-relative {
+    position: relative;
+  }
+
+  &::before {
+    content: "hi";
+    z-index: -1;
+    position: absolute;
+    inset: 0;
+    background: var(--gradient-primary);
+    filter: blur(15px);
+    transition:
+      opacity ease-in-out 300ms,
+      scale ease-in-out 300ms;
+    border-radius: inherit;
+
+    @if $animate-on-hover {
+      @include animate-backgrond-gradient;
+      animation-play-state: paused;
+    }
+
+    @if $show-on-hover {
+      scale: 0.6;
+      opacity: math.div($opacity, 2);
+    } @else {
+      opacity: $opacity;
+      scale: 1.02;
+    }
+  }
+
+  @if $show-on-hover {
+    &:hover,
+    &:focus {
+      &::before {
+        @if $animate-on-hover {
+          animation-play-state: running;
+        }
+        opacity: $opacity;
+        scale: 0.8;
+      }
+    }
+  }
+}
+/// }}}
+
+/// Animation {{{
+@mixin animate-backgrond-gradient(
+  $color: var(--gradient-primary-animate),
+  $duration: 15s,
+  $increase-x-by: 5,
+  $increase-y-by: 1,
+  $timing-function: ease
+) {
+  background: $color;
+  background-size: calc($increase-x-by * 100%) calc($increase-y-by * 100%);
+  background-position: 0 0;
+
+  animation: gradient-background $duration $timing-function infinite;
+}
+
+@mixin animate-background-gradient-on-hover(
+  $color: var(--gradient-primary-animate),
+  $duration: 15s,
+  $increase-x-by: 5,
+  $increase-y-by: 1,
+  $timing-function: ease
+) {
+  @include animate-backgrond-gradient($color, $duration, $increase-x-by, $increase-y-by, $timing-function);
+
+  animation-play-state: paused;
+
+  &:hover,
+  &:focus {
+    animation-play-state: running;
+  }
+}
+/// }}}
+
+@mixin dot-load-animation($size, $gap, $pos) {
+  --size: #{$size};
+  --gap: #{$gap};
+
+  --second-dot-offset: calc(var(--size) + var(--gap));
+  --third-dot-offset: calc((var(--size) + var(--gap)) * 2);
+
+  position: relative;
+
+  &::before {
+    content: "";
+    @include size(var(--size));
+    border-radius: 50%;
+    position: absolute;
+    inset: $pos;
+    background: currentColor;
+    animation: dot-load 1.5s linear infinite;
+  }
+}

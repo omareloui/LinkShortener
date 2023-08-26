@@ -1,0 +1,88 @@
+@use "sass:list";
+@use "mixins.scss" as *;
+
+$colors-props: ();
+
+// Helpers {{{
+@mixin add-color($color-name, $light-value, $dark-value) {
+  --#{$color-name}-light: #{$light-value};
+  --#{$color-name}-dark: #{$dark-value};
+  $colors-props: list.append($colors-props, #{$color-name}) !global;
+}
+
+@mixin set-color-theme($theme: light) {
+  @each $style in $colors-props {
+    --#{$style}: var(--#{$style}-#{$theme});
+  }
+}
+// }}}
+
+:root {
+  // Colors {{{
+  color-scheme: light;
+
+  --text-main-light: #f2f2f2;
+  --text-main-dark: #131313;
+
+  --transparent: #ffffff00;
+
+  --cyan: #4adeff;
+  --purple: #9656ff;
+  --magenta: #ff31d2;
+
+  --purple-hsl: 263deg 100% 67%;
+  --magenta-hsl: 313deg 100% 60%;
+
+  --gradient-primary: linear-gradient(245deg, var(--cyan) 17%, var(--purple) 50%, var(--magenta) 82%);
+
+  --gradient-primary-animate: linear-gradient(
+    245deg,
+    var(--cyan) 16.65%,
+    var(--purple) 33.35%,
+    var(--magenta) 50%,
+    var(--purple) 66.65%,
+    var(--cyan) 100%
+  );
+
+  @include add-color(surface0, #f8f8f8, #1b1b1b);
+  @include add-color(surface1, #ffffff, #222222);
+  @include add-color(surface2, #e2e2e2, #343434);
+  @include add-color(overlay0, #d4d4d4, #747474);
+
+  @include add-color(boxshadow0, hsl(0deg 0% 10% / 0.3), hsl(0deg 0% 85% / 0.3));
+  @include add-color(boxshadow1, hsl(0deg 0% 30% / 0.1), hsl(0deg 0% 85% / 0.1));
+
+  @include add-color(blur-surface0, hsl(0deg 0% 97% / 0.8), hsl(0deg 0% 11% / 0.8));
+  @include add-color(blur-surface1, hsl(0deg 0% 97% / 0.7), hsl(0deg 0% 11% / 0.7));
+  @include add-color(blur-surface2, hsl(0deg 0% 97% / 0.6), hsl(0deg 0% 11% / 0.6));
+  @include add-color(blur-surface3, hsl(0deg 0% 97% / 0.5), hsl(0deg 0% 11% / 0.5));
+  @include add-color(blur-surface4, hsl(0deg 0% 97% / 0.4), hsl(0deg 0% 11% / 0.4));
+  @include add-color(blur-surface5, hsl(0deg 0% 97% / 0.2), hsl(0deg 0% 11% / 0.2));
+  @include add-color(blur-surface-none, hsl(0deg 0% 97% / 0), hsl(0deg 0% 11% / 0));
+
+  @include add-color(blur-invert-surface0, hsl(0deg 0% 11% / 0.8), hsl(0deg 0% 97% / 0.8));
+  @include add-color(blur-invert-surface3, hsl(0deg 0% 11% / 0.5), hsl(0deg 0% 97% / 0.5));
+  @include add-color(blur-invert-surface5, hsl(0deg 0% 11% / 0.2), hsl(0deg 0% 97% / 0.2));
+
+  @include add-color(highlight, #1b1b1b38, #f8f8f838);
+
+  @include add-color(text, var(--text-main-dark), var(--text-main-light));
+  @include add-color(subtext0, #595959, #cccccc);
+  @include add-color(subtext1, #848484, #8f8f8f);
+  @include add-color(shadow-text, #13131329, #e5e5e514);
+  @include add-color(text-invert, #f2f2f2, #131313);
+
+  @include set-color-theme(light);
+  // }}}
+
+  // Media Queries {{{
+  @include screens;
+  // }}}
+
+  --main-timing-function: cubic-bezier(0, 0.91, 0.41, 0.98);
+}
+
+:root[theme="dark"] {
+  color-scheme: dark;
+  @include set-color-theme(dark);
+}

@@ -27,7 +27,7 @@ const LinkSchema = new Schema<DehydratedLink>(
 
     clicks: { type: Number, default: 0 },
   },
-  { timestamps: true },
+  { timestamps: true, versionKey: false },
 );
 
 LinkSchema.pre("save", function () {

@@ -1,0 +1,24 @@
+@use "./mixins.scss" as *;
+// Hides the text from the view but keeps it for screen readers
+.aria-only {
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  font-size: 0;
+}
+
+.circle {
+  border-radius: 100%;
+}
+
+.tablet-down {
+  @include tablet-up {
+    display: none;
+  }
+}
+
+.tablet-up {
+  @include tablet-down {
+    display: none;
+  }
+}
