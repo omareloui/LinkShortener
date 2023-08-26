@@ -1,16 +1,15 @@
 <script setup lang="ts">
 import { LinkForNotAuthed, LinkPojo } from "types";
-
-const links: (LinkForNotAuthed | LinkPojo)[] = await $fetch("/api/links");
+defineProps<{ links: (LinkForNotAuthed | LinkPojo)[] }>();
 </script>
 
 <template>
-  <div class="list">
+  <TransitionGroup name="links-preview" tag="div" class="list">
     <LinkPreview v-for="link in links" :key="link.slug" :link="link"></LinkPreview>
-  </div>
+  </TransitionGroup>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss">
 .list {
   display: grid;
   gap: 15px;

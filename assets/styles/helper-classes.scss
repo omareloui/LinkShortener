@@ -22,3 +22,19 @@
     display: none;
   }
 }
+
+// Transition classes
+.links-preview-move,
+.links-preview-enter-active,
+.links-preview-leave-active {
+  transition: ease-in-out 500ms;
+}
+
+.links-preview-enter-from,
+.links-preview-leave-to {
+  opacity: 0;
+}
+
+.links-preview-leave-active {
+  position: absolute;
+}

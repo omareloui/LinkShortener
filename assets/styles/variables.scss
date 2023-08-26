@@ -56,8 +56,8 @@ $colors-props: ();
   @include add-color(blur-surface1, hsl(0deg 0% 97% / 0.7), hsl(0deg 0% 11% / 0.7));
   @include add-color(blur-surface2, hsl(0deg 0% 97% / 0.6), hsl(0deg 0% 11% / 0.6));
   @include add-color(blur-surface3, hsl(0deg 0% 97% / 0.5), hsl(0deg 0% 11% / 0.5));
-  @include add-color(blur-surface4, hsl(0deg 0% 97% / 0.4), hsl(0deg 0% 11% / 0.4));
-  @include add-color(blur-surface5, hsl(0deg 0% 97% / 0.2), hsl(0deg 0% 11% / 0.2));
+  @include add-color(blur-surface4, hsl(0deg 0% 70% / 0.4), hsl(0deg 0% 20% / 0.4));
+  @include add-color(blur-surface5, hsl(0deg 0% 5% / 0.2), hsl(0deg 0% 95% / 0.2));
   @include add-color(blur-surface-none, hsl(0deg 0% 97% / 0), hsl(0deg 0% 11% / 0));
 
   @include add-color(blur-invert-surface0, hsl(0deg 0% 11% / 0.8), hsl(0deg 0% 97% / 0.8));

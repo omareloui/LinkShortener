@@ -38,6 +38,7 @@ const fullLink = link as LinkPojo;
   backdrop-filter: blur(3px);
   padding: 12px 30px;
   align-items: center;
+  @include w(100%);
 
   &__slug {
     font-weight: bold;
