@@ -23,6 +23,7 @@ class LinkController {
       const _link = link.toJSON();
       delete _link.visits;
       delete _link.clicks;
+      delete _link.__v;
       return _link;
     });
   });
@@ -49,6 +50,7 @@ class LinkController {
     const _link = link.toJSON();
     delete _link.visits;
     delete _link.clicks;
+    delete _link.__v;
     return _link;
   });
 
