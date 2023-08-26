@@ -9,20 +9,23 @@ const { color, size, inset } = withDefaults(
   <div class="circle"></div>
 </template>
 
-<style scoped lang="sass">
-@use "~~/assets/styles/mixins" as *
+<style scoped lang="scss">
+@use "~~/assets/styles/mixins" as *;
 
-.circle
-  position: absolute
-  inset: v-bind("inset")
-  border-radius: 50%
-  +w(v-bind("size"))
-  aspect-ratio: 1
-  background-color: v-bind("color")
-  translate: -50% -50%
-  animation: pulse 3s infinite linear alternate
+.circle {
+  position: absolute;
+  inset: v-bind("inset");
+  border-radius: 50%;
+  @include w(v-bind("size"));
+  aspect-ratio: 1;
+  background-color: v-bind("color");
+  translate: -50% -50%;
+  animation: pulse 3s infinite linear alternate;
+}
 
-@keyframes pulse
-  to
-    scale: 0.8
+@keyframes pulse {
+  to {
+    scale: 0.8;
+  }
+}
 </style>

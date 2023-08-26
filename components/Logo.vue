@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { noColor, color } = withDefaults(defineProps<{ color?: string; noColor?: boolean }>(), {
+const { color } = withDefaults(defineProps<{ color?: string; noColor?: boolean }>(), {
   color: "var(--text)",
 });
 </script>

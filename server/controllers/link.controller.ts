@@ -19,12 +19,7 @@ class LinkController {
     const { context } = event;
     if (context.isAuthed) return links;
 
-    return links.map(link => {
-      const _link = link.toJSON();
-      delete _link.visits;
-      delete _link.clicks;
-      return _link;
-    });
+    return links.map(x => ({ slug: x.slug, url: x.url }));
   });
 
   visit = eventHandler(async event => {

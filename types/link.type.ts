@@ -1,4 +1,4 @@
-import type { HydratedDocument } from "mongoose";
+import type { HydratedDocument, Types, FlattenMaps } from "mongoose";
 
 export type LinkVisit = {
   ip: string;
@@ -13,10 +13,14 @@ export type LinkVisit = {
 export type DehydratedLink = {
   url: string;
   slug: string;
-  clicks?: number;
-  visits?: LinkVisit[];
+  clicks: number;
+  visits: LinkVisit[];
   createdAt: Date;
   updatedAt: Date;
 };
 
+export type LinkForNotAuthed = Pick<DehydratedLink & { _id: Types.ObjectId }, "url" | "slug">;
+
 export type Link = HydratedDocument<DehydratedLink>;
+
+export type LinkPojo = FlattenMaps<DehydratedLink & { _id: string }>;

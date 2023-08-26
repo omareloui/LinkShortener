@@ -34,36 +34,42 @@ onBeforeMount(redirect);
   </div>
 </template>
 
-<style scoped lang="sass">
-@use "~~/assets/styles/mixins" as *
+<style scoped lang="scss">
+@use "~~/assets/styles/mixins" as *;
 
-.container
-  position: relative
-  +size(100dvw 100dvh)
-  overflow: hidden
+.container {
+  position: relative;
+  overflow: hidden;
+  @include size(100dvw 100dvh);
 
-  main
-    +size(100%)
-    backdrop-filter: blur(30px)
-    +h(100dvh)
-    display: grid
-    place-items: center
+  main {
+    @include size(100%);
+    backdrop-filter: blur(30px);
+    @include h(100dvh);
+    display: grid;
+    place-items: center;
 
-    .content
-      display: grid
-      place-items: center
-      gap: 35px
+    .content {
+      display: grid;
+      place-items: center;
+      gap: 35px;
+    }
 
-    .logo
-      +w(max(45vw, 300px))
+    .logo {
+      @include w(max(45vw, 300px));
+    }
 
-    .text
-      --dot-size: 8px
+    .text {
+      --dot-size: 8px;
 
-      isolation: isolate
-      font-weight: bold
-      font-size: clamp(2.25rem, 7vw, 3rem)
-      line-height: clamp(3.1rem, 9.8vw, 4.25rem)
-      transform: translateX(calc((var(--dot-size) + var(--dot-size)) * -1))
-      +dot-load-animation(var(--dot-size), 5px, auto -12px 13px auto)
+      isolation: isolate;
+      font-weight: bold;
+      font-size: clamp(2.25rem, 7vw, 3rem);
+      line-height: clamp(3.1rem, 9.8vw, 4.25rem);
+      transform: translateX(calc((var(--dot-size) + var(--dot-size)) * -1));
+
+      @include dot-load-animation(var(--dot-size), 5px, auto -12px 13px auto);
+    }
+  }
+}
 </style>

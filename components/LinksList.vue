@@ -5,11 +5,14 @@ const links: (LinkForNotAuthed | LinkPojo)[] = await $fetch("/api/links");
 </script>
 
 <template>
-  <Container tag="main">
-    <LinksList :links="links"></LinksList>
-  </Container>
+  <div class="list">
+    <LinkPreview v-for="link in links" :key="link.slug" :link="link"></LinkPreview>
+  </div>
 </template>
 
 <style scoped lang="scss">
-@use "~~/assets/styles/mixins" as *;
+.list {
+  display: grid;
+  gap: 15px;
+}
 </style>
