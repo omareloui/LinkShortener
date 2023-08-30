@@ -225,3 +225,11 @@ $screens: (
     animation: dot-load 1.5s linear infinite;
   }
 }
+
+@mixin primary-gradient-text {
+  display: inline-block;
+  background-image: var(--gradient-primary);
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+}

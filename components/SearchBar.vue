@@ -2,7 +2,7 @@
 defineProps<{ modelValue: string }>();
 defineEmits<{ (e: "update:modelValue", value: string): void }>();
 
-const searchInput = ref(null as null | HTMLInputElement);
+const searchInput = ref<HTMLInputElement | null>(null);
 
 function getValueFromEvent(e: Event) {
   return (e.target as EventTarget & { value: string }).value;
@@ -12,14 +12,21 @@ function focus() {
   searchInput?.value?.focus();
 }
 
+function onKeyup(e: KeyboardEvent) {
+  if (e.code === "Slash") focus();
+}
+
 function init() {
-  document.addEventListener("keyup", e => {
-    if (e.code === "Slash") focus();
-  });
+  addEventListener("keyup", onKeyup);
   focus();
 }
 
-onMounted(init);
+function onDestroy() {
+  removeEventListener("keyup", onKeyup);
+}
+
+onBeforeMount(init);
+onBeforeUnmount(onDestroy);
 </script>
 
 <template>

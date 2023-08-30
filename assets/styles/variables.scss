@@ -72,6 +72,8 @@ $colors-props: ();
   @include add-color(shadow-text, #13131329, #e5e5e514);
   @include add-color(text-invert, #f2f2f2, #131313);
 
+  @include add-color(important, #ff2222, #db0000);
+
   @include set-color-theme(light);
   // }}}
 

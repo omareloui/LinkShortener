@@ -1,5 +1,5 @@
 @use "./mixins.scss" as *;
-// Hides the text from the view but keeps it for screen readers
+
 .aria-only {
   width: 0;
   height: 0;
@@ -33,8 +33,19 @@
 .links-preview-enter-from,
 .links-preview-leave-to {
   opacity: 0;
+  transform: translateX(30px);
 }
 
 .links-preview-leave-active {
   position: absolute;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: ease-in-out 300ms;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
