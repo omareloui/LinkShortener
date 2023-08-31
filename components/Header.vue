@@ -1,5 +1,12 @@
 <script setup lang="ts">
+const { $isAuthed } = useNuxtApp();
+
 defineEmits<{ (e: "openSignModal"): void }>();
+
+async function signout() {
+  await useFetch("/api/auth/signout", { method: "POST" });
+  location.href = location.origin;
+}
 </script>
 
 <template>
@@ -9,7 +16,8 @@ defineEmits<{ (e: "openSignModal"): void }>();
       <h1>omareloui links</h1>
     </div>
     <div class="sign-button">
-      <ButtonBase @click="$emit('openSignModal')">Sign</ButtonBase>
+      <ButtonBase @click="signout" v-if="$isAuthed">Signout</ButtonBase>
+      <ButtonBase @click="$emit('openSignModal')" v-else>Sign</ButtonBase>
     </div>
   </header>
 </template>

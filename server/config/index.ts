@@ -11,7 +11,8 @@ const ZConfig = z.object({
   hashedKey: z.string(),
   jwtPrefix: z.string(),
   jwtSecret: z.string(),
-  jwtExpiresIn: z.string().or(z.number()),
+  jwtExpiresIn: z.string(),
+  accessTokenName: z.string(),
 });
 
 type ZConfig = z.infer<typeof ZConfig>;
@@ -26,6 +27,7 @@ const config = ZConfig.parse({
   dbLink: process.env.DB_URI,
   hashedKey,
   jwtPrefix,
+  accessTokenName: "access_token",
   jwtSecret: `${jwtPrefix}.${hashedKey}`,
   jwtExpiresIn: process.env.TOKEN_EXPIRES_IN || "5d",
 });

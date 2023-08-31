@@ -13,6 +13,10 @@ export function isNormalError(e: unknown): e is Error {
   return e !== null && typeof e === "object" && "name" in e && (e as { name?: string }).name === "Error";
 }
 
+export function isTypeError(e: unknown): e is TypeError {
+  return e !== null && typeof e === "object" && "name" in e && e.name === "TypeError";
+}
+
 export function errorHandler(error: unknown): never {
   if (isZodError(error))
     throw createError({
@@ -22,6 +26,13 @@ export function errorHandler(error: unknown): never {
     });
 
   if (isH3Error(error) || isNormalError(error)) throw createError(error);
+
+  if (isTypeError(error))
+    throw createError({
+      message: `TypeError: ${error.message}`,
+      statusCode: 500,
+      statusMessage: "Internal Server Error",
+    });
 
   throw createError({
     message: `Unknown Error Type: ${error}`,

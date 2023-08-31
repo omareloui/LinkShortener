@@ -1,16 +1,20 @@
 <script setup lang="ts">
 import InputText from "../Input/Text.vue";
-import BaseModal from "./Base.vue";
+import ModalBase from "./Base.vue";
 
 const keyInput = ref<InstanceType<typeof InputText> | null>(null);
 
 const signKey = ref("");
 
-const modal = ref<InstanceType<typeof BaseModal> | null>();
+const modal = ref<InstanceType<typeof ModalBase> | null>();
 
-function submit() {
-  console.log("submitting...");
-  console.log(signKey.value);
+async function submit() {
+  await useFetch("/api/auth/sign", {
+    method: "POST",
+    body: JSON.stringify({ key: signKey.value }),
+  });
+  modal.value?.close();
+  location.href = location.origin;
 }
 
 function open() {
