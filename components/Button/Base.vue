@@ -1,13 +1,23 @@
 <script setup lang="ts">
-withDefaults(defineProps<{ isGradiant?: boolean; type?: "submit" | "button"; isBlock?: boolean }>(), {
-  type: "button",
-});
+withDefaults(
+  defineProps<{ isGradiant?: boolean; type?: "submit" | "button"; isBlock?: boolean; disabled?: boolean }>(),
+  {
+    type: "button",
+  },
+);
 
 defineEmits<{ (e: "click"): void }>();
 </script>
 
 <template>
-  <button v-bind="{ type }" :class="{ gradiant: isGradiant, block: isBlock }" @click="$emit('click')"><slot /></button>
+  <button
+    v-bind="{ type }"
+    :class="{ gradiant: isGradiant, block: isBlock }"
+    @click="$emit('click')"
+    :disabled="disabled"
+  >
+    <slot />
+  </button>
 </template>
 
 <style scoped lang="scss">
@@ -39,6 +49,10 @@ button {
   &.block {
     display: block;
     @include w(100%);
+  }
+
+  &[disabled] {
+    filter: grayscale(1);
   }
 }
 </style>

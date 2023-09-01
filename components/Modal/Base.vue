@@ -87,6 +87,7 @@ defineExpose({ open, close });
       place-items: center;
       text-align: center;
       font-size: 1.8rem;
+      margin-bottom: 10px;
       span {
         @include primary-gradient-text;
       }

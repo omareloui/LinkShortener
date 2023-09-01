@@ -2,6 +2,8 @@
 import { LinkForNotAuthed, LinkPojo } from "types";
 import SignModal from "../components/Modal/Base.vue";
 
+const { $isAuthed } = useNuxtApp();
+
 const { data: links } = await useFetch("/api/links");
 
 const data = reactive({ links: links.value as (LinkForNotAuthed | LinkPojo)[] });
@@ -22,7 +24,7 @@ function onQueryChange(newValue: string) {
     <SearchBar v-model="query" />
     <LinksList :links="data.links" />
   </Container>
-  <ModalSign ref="modal" />
+  <ModalSign ref="modal" v-if="!$isAuthed" />
 </template>
 
 <style scoped lang="scss">

@@ -1,12 +1,18 @@
 <script setup lang="ts">
-withDefaults(defineProps<{ modelValue: string; type?: string; placeholder?: string; label: string; name: string }>(), {
-  type: "text",
-});
-defineEmits<{ (e: "update:modelValue", value: string): void }>();
-
-function getValue(e: Event) {
-  return (e.target as EventTarget & { value: string }).value;
-}
+const props = withDefaults(
+  defineProps<{
+    modelValue: string;
+    label: string;
+    name: string;
+    type?: string;
+    placeholder?: string;
+    required?: boolean;
+  }>(),
+  {
+    type: "text",
+  },
+);
+const emit = defineEmits<{ (e: "update:modelValue", value: string): void }>();
 
 const inputElement = ref<HTMLInputElement | null>(null);
 
@@ -15,20 +21,17 @@ function focus() {
 }
 
 defineExpose({ focus });
+
+const content = useModelWrapper(props, emit);
 </script>
 
 <template>
   <div class="form-field">
     <label :for="name">{{ label }}</label>
-    <input
-      ref="inputElement"
-      :id="name"
-      :name="name"
-      :type="type"
-      :placeholder="placeholder"
-      :value="modelValue"
-      @input="$emit('update:modelValue', getValue($event))"
-    />
+    <div class="input-wrapper">
+      <input v-model="content" ref="inputElement" v-bind="{ name, id: name, type, required, placeholder }" />
+      <span class="required-dot" v-if="required"></span>
+    </div>
   </div>
 </template>
 
@@ -36,19 +39,40 @@ defineExpose({ focus });
 @use "~~/assets/styles/mixins" as *;
 
 .form-field {
-  margin: 10px auto;
+  width: 100%;
 
-  input {
-    @include w(min(var(--screen-desktop), 100%));
-    font-size: 1rem;
-    font-weight: bold;
-    padding: 10px 20px;
-    outline: none;
-    border: none;
-    border-radius: 6px;
-    background: var(--blur-surface4);
-    backdrop-filter: blur(3px);
-    margin: 0 auto;
+  .input-wrapper {
+    position: relative;
+    --padding-x: 10px;
+
+    input {
+      @include w(min(var(--screen-desktop), 100%));
+      font-size: 1rem;
+      font-weight: bold;
+      padding: var(--padding-x) 20px;
+      outline: none;
+      border-radius: 6px;
+      background: var(--blur-surface4);
+      backdrop-filter: blur(3px);
+      margin: 0 auto;
+      border: 2px solid transparent;
+      transition: border ease-in-out 200ms;
+
+      &:focus {
+        border-color: var(--cyan);
+      }
+    }
+
+    .required-dot {
+      position: absolute;
+      top: 50%;
+      right: calc(var(--padding-x) + 10px);
+      translate: 0 -50%;
+      @include size(9px);
+      border-radius: 50%;
+      background: var(--important);
+      display: inline-block;
+    }
   }
 
   label {

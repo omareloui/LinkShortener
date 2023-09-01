@@ -40,3 +40,13 @@ export function errorHandler(error: unknown): never {
     statusMessage: "Internal Server Error",
   });
 }
+
+export function parseErrorMessage(error: unknown) {
+  if (isZodError(error)) return error.message;
+
+  if (isH3Error(error) || isNormalError(error)) return error.message;
+
+  if (isTypeError(error)) return error.message;
+
+  return `Unknown Error Type: ${error}`;
+}

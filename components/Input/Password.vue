@@ -25,7 +25,7 @@ defineExpose({ focus });
   <InputBase
     v-model="content"
     ref="inputElement"
-    type="text"
+    type="password"
     v-bind="{
       placeholder,
       name,

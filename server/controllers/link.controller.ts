@@ -39,8 +39,6 @@ class LinkController {
     const ip = node.req.headers["x-forwarded-for"] as string;
     await this.saveVisit(ip, link, source || s);
 
-    if (context.isAuthed) return link;
-
     return link.url;
   });
 

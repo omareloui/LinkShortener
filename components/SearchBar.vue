@@ -48,10 +48,15 @@ input[type="search"] {
   font-weight: bold;
   padding: 10px 20px;
   outline: none;
-  border: none;
   border-radius: 6px;
   background: var(--blur-surface4);
   backdrop-filter: blur(3px);
   margin: 0 auto;
+  border: 2px solid transparent;
+  transition: border ease-in-out 200ms;
+
+  &:focus {
+    border-color: var(--cyan);
+  }
 }
 </style>
