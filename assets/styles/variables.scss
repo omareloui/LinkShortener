@@ -30,10 +30,21 @@ $colors-props: ();
   --purple: #9656ff;
   --magenta: #ff31d2;
 
+  --cyan-opacified: #4adeff55;
+  --purple-opacified: #9656ff55;
+  --magenta-opacified: #ff31d255;
+
   --purple-hsl: 263deg 100% 67%;
   --magenta-hsl: 313deg 100% 60%;
 
   --gradient-primary: linear-gradient(245deg, var(--cyan) 17%, var(--purple) 50%, var(--magenta) 82%);
+
+  --gradient-primary-opacified: linear-gradient(
+    245deg,
+    var(--cyan-opacified) 17%,
+    var(--purple-opacified) 50%,
+    var(--magenta-opacified) 82%
+  );
 
   --gradient-primary-animate: linear-gradient(
     245deg,

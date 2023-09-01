@@ -23,6 +23,7 @@ function onQueryChange(newValue: string) {
     <Header @open-sign-modal="modal?.open" />
     <SearchBar v-model="query" />
     <LinksList :links="data.links" />
+    <FloatingButton v-if="$isAuthed" />
   </Container>
   <ModalSign ref="modal" v-if="!$isAuthed" />
 </template>
@@ -31,8 +32,10 @@ function onQueryChange(newValue: string) {
 @use "~~/assets/styles/mixins" as *;
 
 main {
-  display: grid;
-  gap: 30px;
   margin-top: 30px;
+
+  & > *:not(:last-child) {
+    margin-bottom: 30px;
+  }
 }
 </style>
