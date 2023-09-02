@@ -22,7 +22,6 @@ withDefaults(defineProps<{ tag?: string }>(), {
   margin-right: auto;
 
   position: relative;
-  min-height: calc(100vh - 100px);
 
   @media screen and (max-width: calc(var(--container-padding) * 2 + var(--container-width))) {
     max-width: 100%;

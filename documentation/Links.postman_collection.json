@@ -48,13 +48,13 @@
 					"response": []
 				},
 				{
-					"name": "Signout (for pm only)",
+					"name": "Signout",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.collectionVariables.set(\"token\", undefined)"
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -64,13 +64,13 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/auth/sign-out",
+							"raw": "{{url}}/auth/signout",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"auth",
-								"sign-out"
+								"signout"
 							]
 						}
 					},

@@ -1,5 +1,5 @@
 <template>
-  <button class="floating-button" type="button">
+  <button class="floating-button" type="button" aria-label="Create link">
     <span class="content">
       <IconCreateLink />
     </span>
@@ -13,9 +13,10 @@
   @include size(80px);
   border-radius: 50%;
   border: 2px solid var(--cyan-opacified);
-  position: absolute;
-  bottom: 0;
-  right: 20px;
+  position: fixed;
+  bottom: 30px;
+  right: calc(var(--container-padding) + 20px);
+
   background: var(--gradient-primary-opacified);
   backdrop-filter: blur(5px);
   display: grid;
