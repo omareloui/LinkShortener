@@ -4,6 +4,7 @@ import ModalBase from "./Base.vue";
 
 import { parseErrorMessage } from "~~/server/utils/error";
 
+const emit = defineEmits<{ (e: "refresh-links"): void }>();
 const slugHelper = useSlugHelper();
 
 const disableSubmit = ref(false);
@@ -25,6 +26,11 @@ function open() {
   }, 0);
 }
 
+function clearInputs() {
+  url.value = "";
+  slug.value = "";
+}
+
 async function submit() {
   if (disableSubmit.value) return;
   try {
@@ -34,9 +40,10 @@ async function submit() {
       method: "POST",
       body: JSON.stringify({ url: url.value, slug: slug.value }),
     });
-    if (error.value) throw new Error(error.value.message);
-    // TODO: refresh the request
+    if (error.value) throw new Error(error.value.data.message);
+    emit("refresh-links");
     modal.value?.close();
+    setTimeout(clearInputs, 500);
   } catch (e) {
     errorMessage.value = parseErrorMessage(e);
   } finally {

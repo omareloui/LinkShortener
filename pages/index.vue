@@ -33,7 +33,7 @@ async function refreshList() {
     <FloatingButton v-if="$isAuthed" @open-create-link="createLinkModal?.open" />
   </Container>
   <ModalSign ref="signModal" v-if="!$isAuthed" />
-  <ModalCreateLink ref="createLinkModal" v-if="$isAuthed" />
+  <ModalCreateLink ref="createLinkModal" v-if="$isAuthed" @refresh-links="refreshList" />
 </template>
 
 <style scoped lang="scss">
