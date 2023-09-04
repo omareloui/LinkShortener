@@ -33,7 +33,7 @@
 .links-preview-enter-from,
 .links-preview-leave-to {
   opacity: 0;
-  transform: translateX(30px);
+  translate: 20px 0;
 }
 
 .links-preview-leave-active {
