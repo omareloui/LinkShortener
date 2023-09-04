@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { LinkForNotAuthed, LinkPojo } from "types";
-import SignModal from "../components/Modal/Base.vue";
+import SignModal from "../components/Modal/Sign.vue";
+import CreateLinkModal from "../components/Modal/CreateLink.vue";
 
 const { $isAuthed } = useNuxtApp();
 
@@ -8,7 +9,8 @@ const { data: links, refresh } = await useFetch("/api/links");
 
 const data = reactive({ links: links.value as (LinkForNotAuthed | LinkPojo)[] });
 const query = ref("");
-const modal = ref<InstanceType<typeof SignModal> | null>(null);
+const signModal = ref<InstanceType<typeof SignModal> | null>(null);
+const createLinkModal = ref<InstanceType<typeof CreateLinkModal> | null>(null);
 
 watch(query, onQueryChange);
 
@@ -25,12 +27,13 @@ async function refreshList() {
 
 <template>
   <Container tag="main">
-    <Header @open-sign-modal="modal?.open" />
+    <Header @open-sign-modal="signModal?.open" />
     <SearchBar v-model="query" />
     <LinksList :links="data.links" @refresh-list="refreshList" />
-    <FloatingButton v-if="$isAuthed" />
+    <FloatingButton v-if="$isAuthed" @open-create-link="createLinkModal?.open" />
   </Container>
-  <ModalSign ref="modal" v-if="!$isAuthed" />
+  <ModalSign ref="signModal" v-if="!$isAuthed" />
+  <ModalCreateLink ref="createLinkModal" v-if="$isAuthed" />
 </template>
 
 <style scoped lang="scss">

@@ -4,13 +4,9 @@ import ModalBase from "./Base.vue";
 import { parseErrorMessage } from "~~/server/utils/error";
 
 const keyInput = ref<InstanceType<typeof InputText> | null>(null);
-
 const signKey = ref("");
-
 const modal = ref<InstanceType<typeof ModalBase> | null>();
-
 const disableSubmit = ref(false);
-
 const errorMessage = ref<string | null>(null);
 
 async function submit() {
@@ -66,7 +62,7 @@ onBeforeUnmount(onDestroy);
       <Transition v-if="errorMessage" name="fade"
         ><ErrorMessage class="error-message">{{ errorMessage }}</ErrorMessage></Transition
       >
-      <ButtonBase type="submit" is-block is-gradiant :disabled="disableSubmit">Submit</ButtonBase>
+      <ButtonBase type="submit" is-block is-gradiant :disabled="disableSubmit">Sign</ButtonBase>
     </form>
   </ModalBase>
 </template>

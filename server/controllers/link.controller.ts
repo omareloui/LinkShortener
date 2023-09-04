@@ -111,7 +111,6 @@ class LinkController {
       const API_ENDPOINT = "https://ipapi.co";
       if (["::1", "127.0.0.1"].includes(ip)) ip = "";
       const res = await $fetch(`${API_ENDPOINT}/${ip}/json`);
-      console.log();
       const validatedRes = ZIpApi.pick({
         ip: true,
         latitude: true,

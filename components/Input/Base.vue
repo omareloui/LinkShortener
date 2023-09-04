@@ -7,9 +7,11 @@ const props = withDefaults(
     type?: string;
     placeholder?: string;
     required?: boolean;
+    noAutoComplete?: boolean;
   }>(),
   {
     type: "text",
+    noAutoComplete: false,
   },
 );
 const emit = defineEmits<{ (e: "update:modelValue", value: string): void }>();
@@ -29,7 +31,12 @@ const content = useModelWrapper(props, emit);
   <div class="form-field">
     <label :for="name">{{ label }}</label>
     <div class="input-wrapper">
-      <input v-model="content" ref="inputElement" v-bind="{ name, id: name, type, required, placeholder }" />
+      <input
+        v-model="content"
+        ref="inputElement"
+        v-bind="{ name, id: name, type, required, placeholder }"
+        :autocomplete="noAutoComplete ? 'off' : 'on'"
+      />
       <span class="required-dot" v-if="required"></span>
     </div>
   </div>

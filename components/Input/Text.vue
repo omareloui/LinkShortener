@@ -7,6 +7,7 @@ const props = defineProps<{
   name: string;
   label: string;
   required?: boolean;
+  noAutoComplete?: boolean;
 }>();
 const emit = defineEmits<{ (e: "update:modelValue", value: string): void }>();
 
@@ -31,6 +32,7 @@ defineExpose({ focus });
       name,
       label,
       required,
+      noAutoComplete,
     }"
   />
 </template>

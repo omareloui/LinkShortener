@@ -1,5 +1,9 @@
+<script setup lang="ts">
+defineEmits<{ (e: "open-create-link"): void }>();
+</script>
+
 <template>
-  <button class="floating-button" type="button" aria-label="Create link">
+  <button class="floating-button" type="button" aria-label="Create link" @click="$emit('open-create-link')">
     <span class="content">
       <IconCreateLink />
     </span>
