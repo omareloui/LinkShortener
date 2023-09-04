@@ -14,12 +14,14 @@ defineEmits<{ (e: "open-create-link"): void }>();
 @use "~~/assets/styles/mixins" as *;
 
 .floating-button {
+  --outside-container: (100% - var(--container-width)) / 2;
+
   @include size(80px);
   border-radius: 50%;
   border: 2px solid var(--cyan-opacified);
   position: fixed;
   bottom: 30px;
-  right: calc(var(--container-padding) + 20px);
+  right: max(var(--container-padding), calc(var(--outside-container) + var(--container-padding)));
 
   background: var(--gradient-primary-opacified);
   backdrop-filter: blur(5px);
