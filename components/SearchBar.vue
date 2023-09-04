@@ -13,7 +13,7 @@ function focus() {
 }
 
 function onKeyup(e: KeyboardEvent) {
-  if (e.code === "Slash") focus();
+  if (e.code === "Slash" && document.activeElement?.tagName !== "INPUT") focus();
 }
 
 function init() {

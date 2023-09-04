@@ -51,6 +51,19 @@ async function submit() {
   }
 }
 
+function onKeyup(e: KeyboardEvent) {
+  if (e.code === "KeyC" && document.activeElement?.tagName !== "INPUT") open();
+}
+
+function init() {
+  addEventListener("keyup", onKeyup);
+}
+function onDestroy() {
+  removeEventListener("keyup", onKeyup);
+}
+
+onBeforeMount(init);
+onBeforeUnmount(onDestroy);
 defineExpose({ open });
 </script>
 
