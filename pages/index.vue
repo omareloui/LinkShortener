@@ -5,8 +5,6 @@ import CreateLinkModal from "../components/Modal/CreateLink.vue";
 
 const [authState] = useAuthState();
 
-console.log(authState.value);
-
 const { data: links, refresh } = await useFetch("/api/links");
 
 const data = reactive({ links: links.value as (LinkForNotAuthed | LinkPojo)[] });
