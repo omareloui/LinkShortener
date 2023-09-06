@@ -1,11 +1,11 @@
 <script setup lang="ts">
-const { $isAuthed } = useNuxtApp();
-
 defineEmits<{ (e: "openSignModal"): void }>();
+
+const [authState, setAuthState] = useAuthState();
 
 async function signout() {
   await useFetch("/api/auth/signout", { method: "POST" });
-  location.href = location.origin;
+  setAuthState("not-authed");
 }
 </script>
 
@@ -16,7 +16,7 @@ async function signout() {
       <h1><NuxtLink to="/">omareloui links</NuxtLink></h1>
     </div>
     <div class="sign-button">
-      <ButtonBase @click="signout" v-if="$isAuthed">Signout</ButtonBase>
+      <ButtonBase @click="signout" v-if="authState === 'is-authed'">Signout</ButtonBase>
       <ButtonBase @click="$emit('openSignModal')" v-else>Sign in</ButtonBase>
     </div>
   </header>

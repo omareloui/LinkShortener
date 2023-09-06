@@ -3,6 +3,7 @@ import InputText from "../Input/Text.vue";
 import ModalBase from "./Base.vue";
 import { parseErrorMessage } from "~~/server/utils/error";
 
+const [authState, setAuthState] = useAuthState();
 const keyInput = ref<InstanceType<typeof InputText> | null>(null);
 const signKey = ref("");
 const modal = ref<InstanceType<typeof ModalBase> | null>();
@@ -22,7 +23,8 @@ async function submit() {
     if (error.value?.statusCode === 422) throw new Error("Invalid key");
     else if (error.value) throw new Error("Something went wrong. Please try again later.");
 
-    location.href = location.origin;
+    // location.href = location.origin;
+    setAuthState("is-authed");
     modal.value?.close();
   } catch (e) {
     errorMessage.value = parseErrorMessage(e);

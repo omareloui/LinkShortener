@@ -3,10 +3,9 @@ import { LinkForNotAuthed, LinkPojo } from "../types";
 
 const emit = defineEmits<{ (e: "refresh-list"): void }>();
 
+const [authState] = useAuthState();
 const _copy = useCopy();
-
 const { link } = defineProps<{ link: LinkForNotAuthed | LinkPojo }>();
-
 const slug = ref(useLinkGenerator(link, { slugOnly: true }) as string);
 
 function copy() {
@@ -18,11 +17,7 @@ async function deleteLink() {
   emit("refresh-list");
 }
 
-function isFullLink(link: LinkForNotAuthed | LinkPojo): link is LinkPojo {
-  return !!(link as { _id?: string })._id;
-}
-
-const isFull = isFullLink(link);
+const isFull = computed(() => authState.value === "is-authed");
 const fullLink = link as LinkPojo;
 </script>
 

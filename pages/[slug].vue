@@ -10,8 +10,8 @@ async function redirect() {
   if (s || source) link += `?source=${s || source}`;
 
   try {
-    // const url = await $fetch(link);
-    // window.location.replace(url as string);
+    const url = await $fetch(link);
+    window.location.replace(url as string);
   } catch {}
 }
 
