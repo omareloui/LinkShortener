@@ -10,8 +10,8 @@ async function redirect() {
   if (s || source) link += `?source=${s || source}`;
 
   try {
-    const url = await $fetch(link);
-    window.location.replace(url as string);
+    // const url = await $fetch(link);
+    // window.location.replace(url as string);
   } catch {}
 }
 
@@ -19,7 +19,7 @@ onBeforeMount(redirect);
 </script>
 
 <template>
-  <div class="container">
+  <div class="redirect-container">
     <PulseCircle color="var(--magenta)" inset="0 auto auto 95%" size="max(300px, 40%)" />
     <PulseCircle color="var(--purple)" inset="5% auto auto 5%" size="max(420px, 35%)" />
     <PulseCircle color="var(--cyan)" inset="100% auto auto 50%" size="max(500px, 50%)" />
@@ -37,17 +37,21 @@ onBeforeMount(redirect);
 <style scoped lang="scss">
 @use "~~/assets/styles/mixins" as *;
 
-.container {
+.redirect-container {
   position: relative;
   overflow: hidden;
   @include size(100dvw 100dvh);
 
   main {
     @include size(100%);
-    backdrop-filter: blur(30px);
+    backdrop-filter: blur(50px);
     @include h(100dvh);
     display: grid;
     place-items: center;
+
+    @include tablet-up {
+      backdrop-filter: blur(150px);
+    }
 
     .content {
       display: grid;
@@ -56,7 +60,7 @@ onBeforeMount(redirect);
     }
 
     .logo {
-      @include w(max(45vw, 300px));
+      @include w(clamp(300px, 45vw, 600px));
     }
 
     .text {
