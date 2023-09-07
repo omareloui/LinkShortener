@@ -1,24 +1,23 @@
 <script setup lang="ts">
 import { LinkForNotAuthed, LinkPojo } from "../types";
 
-const emit = defineEmits<{ (e: "refresh-list"): void }>();
+const { removeLink: _removeLink } = await useLinksStore();
 
 const [authState] = useAuthState();
 const _copy = useCopy();
 const { link } = defineProps<{ link: LinkForNotAuthed | LinkPojo }>();
 const slug = ref(useLinkGenerator(link, { slugOnly: true }) as string);
 
+const isFull = computed(() => authState.value === "is-authed");
+const fullLink = link as LinkPojo;
+
 function copy() {
   return _copy(`${location.origin}/${slug.value}`);
 }
 
-async function deleteLink() {
-  await useFetch(`/api/links/${(link as LinkPojo)._id}`, { method: "DELETE" });
-  emit("refresh-list");
+function removeLink() {
+  return _removeLink(link);
 }
-
-const isFull = computed(() => authState.value === "is-authed");
-const fullLink = link as LinkPojo;
 </script>
 
 <template>
@@ -32,7 +31,7 @@ const fullLink = link as LinkPojo;
     </div>
     <div class="link__right">
       <ButtonLinkPreview help-tip="Copy" @click="copy"><IconCopy /></ButtonLinkPreview>
-      <ButtonLinkPreview v-if="isFull" help-tip="Delete" @click="deleteLink"><IconDelete /></ButtonLinkPreview>
+      <ButtonLinkPreview v-if="isFull" help-tip="Delete" @click="removeLink"><IconDelete /></ButtonLinkPreview>
     </div>
   </div>
 </template>

@@ -1,4 +1,4 @@
-type AuthState = "is-authed" | "not-authed";
+export type AuthState = "is-authed" | "not-authed";
 
 const authState = ref<AuthState>("not-authed");
 

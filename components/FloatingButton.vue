@@ -1,9 +1,13 @@
 <script setup lang="ts">
-defineEmits<{ (e: "open-create-link"): void }>();
+const [, setState] = useOpenModalState();
+
+function openCreateLink() {
+  return setState("create-link");
+}
 </script>
 
 <template>
-  <button class="floating-button" type="button" aria-label="Create link" @click="$emit('open-create-link')">
+  <button class="floating-button" type="button" aria-label="Create link" @click="openCreateLink">
     <span class="content">
       <IconCreateLink />
     </span>

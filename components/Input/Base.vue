@@ -2,7 +2,7 @@
 const props = withDefaults(
   defineProps<{
     modelValue: string;
-    label: string;
+    label?: string;
     name: string;
     type?: string;
     placeholder?: string;
@@ -29,7 +29,7 @@ const content = useModelWrapper(props, emit);
 
 <template>
   <div class="form-field">
-    <label :for="name">{{ label }}</label>
+    <label :for="name" v-if="label">{{ label }}</label>
     <div class="input-wrapper">
       <input
         v-model="content"

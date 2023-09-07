@@ -1,12 +1,7 @@
 <script setup lang="ts">
-defineProps<{ modelValue: string }>();
-defineEmits<{ (e: "update:modelValue", value: string): void }>();
-
 const searchInput = ref<HTMLInputElement | null>(null);
 
-function getValueFromEvent(e: Event) {
-  return (e.target as EventTarget & { value: string }).value;
-}
+const { query, setQuery } = await useLinksStore();
 
 function focus() {
   searchInput?.value?.focus();
@@ -30,12 +25,14 @@ onBeforeUnmount(onDestroy);
 </script>
 
 <template>
-  <input
+  <InputBase
     ref="searchInput"
     type="search"
     placeholder="Type / to search"
-    :value="modelValue"
-    @input="$emit('update:modelValue', getValueFromEvent($event))"
+    name="search"
+    no-auto-complete
+    :modelValue="query"
+    @update:modelValue="setQuery"
   />
 </template>
 

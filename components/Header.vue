@@ -1,7 +1,10 @@
 <script setup lang="ts">
-defineEmits<{ (e: "openSignModal"): void }>();
-
 const [authState, setAuthState] = useAuthState();
+const [, setModalState] = useOpenModalState();
+
+function openSignModal() {
+  return setModalState("sign");
+}
 
 async function signout() {
   await useFetch("/api/auth/signout", { method: "POST" });
@@ -17,7 +20,7 @@ async function signout() {
     </div>
     <div class="sign-button">
       <ButtonBase @click="signout" v-if="authState === 'is-authed'">Signout</ButtonBase>
-      <ButtonBase @click="$emit('openSignModal')" v-else>Sign in</ButtonBase>
+      <ButtonBase @click="openSignModal" v-else>Sign in</ButtonBase>
     </div>
   </header>
 </template>

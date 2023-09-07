@@ -1,14 +1,40 @@
 <script setup lang="ts">
-defineProps<{ title: string }>();
+import type { AuthState } from "../../composables/useAuthState";
+import type { Modal } from "../../composables/useOpenModalState";
+import CreateLinkBody from "./CreateLinkBody.vue";
+import SignBody from "./SignBody.vue";
 
-const isOpen = ref(false);
+const [authState] = useAuthState();
+const [openModal, setOpenModal] = useOpenModalState();
 
-function open() {
-  isOpen.value = true;
+const isOpen = computed(() => !!openModal.value);
+
+const BODIES: {
+  [K in Modal]: {
+    component: typeof CreateLinkBody | typeof SignBody;
+    title: string;
+    shortCut: string;
+    authStateToOpen: AuthState;
+  };
+} = {
+  sign: { component: SignBody, title: "Sign in", shortCut: "KeyS", authStateToOpen: "not-authed" },
+  "create-link": {
+    component: CreateLinkBody,
+    title: "Create a new link",
+    shortCut: "KeyC",
+    authStateToOpen: "is-authed",
+  },
+} as const;
+
+const modalContent = computed(() => (openModal.value ? BODIES[openModal.value] : null));
+
+function open(modal: Modal) {
+  if (authState.value !== BODIES[modal].authStateToOpen) return;
+  return setOpenModal(modal);
 }
 
 function close() {
-  isOpen.value = false;
+  return setOpenModal(null);
 }
 
 function onClick(e: Event) {
@@ -17,7 +43,11 @@ function onClick(e: Event) {
 }
 
 function onKeyup(e: KeyboardEvent) {
-  if (e.code === "Escape") close();
+  const { code } = e;
+  if (code === "Escape") close();
+
+  const foundKey = Object.keys(BODIES).find(key => code === BODIES[key].shortCut);
+  if (foundKey) return open(foundKey);
 }
 
 function init() {
@@ -33,7 +63,7 @@ function onDestroy() {
 onMounted(init);
 onBeforeUnmount(onDestroy);
 
-defineExpose({ open, close });
+defineExpose({ close });
 </script>
 
 <template>
@@ -41,10 +71,14 @@ defineExpose({ open, close });
     <div class="modal" v-if="isOpen">
       <div class="content">
         <button type="button" class="close-modal" @click="close"><IconX /></button>
-        <h3 class="title">
-          <span>{{ title }}</span>
-        </h3>
-        <slot></slot>
+        <Transition name="fade">
+          <h3 class="title" v-if="modalContent?.title">
+            <span>{{ modalContent.title }}</span>
+          </h3>
+        </Transition>
+        <Transition name="fade">
+          <component v-if="modalContent?.component" :is="modalContent.component" />
+        </Transition>
       </div>
     </div>
   </Transition>

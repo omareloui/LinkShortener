@@ -1,17 +1,12 @@
 <script setup lang="ts">
 import { LinkForNotAuthed, LinkPojo } from "types";
-defineProps<{ links: (LinkForNotAuthed | LinkPojo)[] }>();
-defineEmits<{ (e: "refresh-list"): void }>();
+
+const { preview, refresh } = await useLinksStore();
 </script>
 
 <template>
   <TransitionGroup name="links-preview" tag="div" class="list">
-    <LinkPreview
-      v-for="link in links"
-      :key="link.slug"
-      :link="link"
-      @refresh-list="$emit('refresh-list')"
-    ></LinkPreview>
+    <LinkPreview v-for="link in preview.links" :key="link.slug" :link="link" @refresh-list="refresh"></LinkPreview>
   </TransitionGroup>
 </template>
 
