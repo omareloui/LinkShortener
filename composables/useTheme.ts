@@ -19,8 +19,7 @@ function setTheme(theme: ThemeState) {
   if (theme === "auto") setTheme(systemTheme);
   else if (theme === "light") rootEl.setAttribute("theme", "");
   else rootEl.setAttribute("theme", theme);
-  // TODO:
-  // updateFavicon(theme === "auto" ? systemTheme : theme);
+  updateFavicon(theme === "auto" ? systemTheme : theme);
 }
 
 function getFromSystemColorScheme(): Exclude<ThemeState, "auto"> {
@@ -45,8 +44,8 @@ function updateFavicon(state: ThemeState) {
   const { head } = document;
   linkEl.setAttribute("rel", "icon");
   linkEl.setAttribute("type", "image/svg+xml");
-  if (state === "light") linkEl.setAttribute("href", "/icons/favicon-light.svg");
-  else linkEl.setAttribute("href", "/icons/favicon-dark.svg");
+  if (state === "light") linkEl.setAttribute("href", "/images/favicon-light.svg");
+  else linkEl.setAttribute("href", "/images/favicon-dark.svg");
   head.removeChild(favicon as HTMLElement);
   head.appendChild(linkEl);
 }
