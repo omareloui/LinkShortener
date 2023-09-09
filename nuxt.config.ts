@@ -19,6 +19,8 @@ export default defineNuxtConfig({
 
         { name: "theme-color", content: "#1b1b1b" },
 
+        { property: "description", content: "A links shortener for links associated to or used by Omar Eloui." },
+
         { property: "og:title", content: "omareloui links" },
         { property: "og:description", content: "A links shortener for links associated to or used by Omar Eloui." },
         { property: "og:url", content: "https://links.omareloui.com" },
