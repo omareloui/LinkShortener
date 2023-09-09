@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { LinkForNotAuthed, LinkPojo } from "types";
-
 const { preview, refresh } = await useLinksStore();
 </script>
 

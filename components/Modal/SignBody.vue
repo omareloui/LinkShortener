@@ -22,6 +22,7 @@ async function submit() {
     else if (error.value) throw new Error("Something went wrong. Please try again later.");
 
     setAuthState("is-authed");
+    location.pathname = "/";
   } catch (e) {
     errorMessage.value = parseErrorMessage(e);
   } finally {
