@@ -1,4 +1,5 @@
 <script setup lang="ts">
+useHead({ title: "omareloui links" });
 const [authState] = useAuthState();
 </script>
 

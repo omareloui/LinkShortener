@@ -1,5 +1,11 @@
 <script setup lang="ts">
-useHead({ title: "Redirecting | Omar Eloui Links" });
+const redirectingTo = ref<string | null>(null);
+
+const redirectingToPreview = computed(() =>
+  redirectingTo.value ? `Redirecting to ${redirectingTo.value} | omareloui links` : "Redirecting | omareloui links",
+);
+
+useHead({ title: redirectingToPreview });
 
 async function redirect() {
   const route = useRoute();
@@ -11,8 +17,11 @@ async function redirect() {
 
   try {
     const url = await $fetch(link);
+    redirectingTo.value = url as string;
     window.location.replace(url as string);
-  } catch {}
+  } catch {
+    // TODO: go to 404
+  }
 }
 
 onBeforeMount(redirect);
