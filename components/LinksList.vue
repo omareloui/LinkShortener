@@ -5,9 +5,9 @@ const { preview, refresh } = await useLinksStore();
 </script>
 
 <template>
-  <TransitionGroup name="links-preview" tag="div" class="list">
-    <LinkPreview v-for="link in preview.links" :key="link.slug" :link="link" @refresh-list="refresh"></LinkPreview>
-  </TransitionGroup>
+  <!-- <TransitionGroup name="links-preview" tag="div" class="list"> -->
+  <LinkPreview v-for="link in preview.links" :key="link.slug" :link="link" @refresh-list="refresh"></LinkPreview>
+  <!-- </TransitionGroup> -->
 </template>
 
 <style lang="scss">

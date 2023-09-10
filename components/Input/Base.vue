@@ -2,8 +2,8 @@
 const props = withDefaults(
   defineProps<{
     modelValue: string;
-    label?: string;
     name: string;
+    label?: string;
     type?: string;
     placeholder?: string;
     required?: boolean;

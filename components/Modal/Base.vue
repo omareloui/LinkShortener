@@ -46,7 +46,10 @@ function onKeyup(e: KeyboardEvent) {
   const { code } = e;
   if (code === "Escape") close();
 
-  const foundKey = Object.keys(BODIES).find(key => code === BODIES[key].shortCut);
+  if (document.activeElement?.tagName === "INPUT") return;
+  const foundKey = Object.keys(BODIES).find(
+    key => code === BODIES[key as keyof typeof BODIES].shortCut,
+  ) as keyof typeof BODIES;
   if (foundKey) return open(foundKey);
 }
 

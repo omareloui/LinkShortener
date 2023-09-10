@@ -2,24 +2,26 @@
 const searchInput = ref<HTMLInputElement | null>(null);
 
 const { query, setQuery } = await useLinksStore();
+const [openModalState] = useOpenModalState();
 
 function focus() {
   searchInput?.value?.focus();
 }
 
 function onKeyup(e: KeyboardEvent) {
-  if (e.code === "Slash" && document.activeElement?.tagName !== "INPUT") focus();
+  if (openModalState.value) return;
+  if (e.code === "Slash") focus();
 }
 
 function init() {
   addEventListener("keyup", onKeyup);
-  focus();
 }
 
 function onDestroy() {
   removeEventListener("keyup", onKeyup);
 }
 
+onMounted(focus);
 onBeforeMount(init);
 onBeforeUnmount(onDestroy);
 </script>
@@ -39,21 +41,7 @@ onBeforeUnmount(onDestroy);
 <style scoped lang="scss">
 @use "~~/assets/styles/mixins" as *;
 
-input[type="search"] {
-  @include w(min(var(--screen-desktop), 100%));
-  font-size: 1rem;
-  font-weight: bold;
-  padding: 10px 20px;
-  outline: none;
-  border-radius: 6px;
-  background: var(--blur-surface4);
-  backdrop-filter: blur(3px);
-  margin: 0 auto;
-  border: 2px solid transparent;
-  transition: border ease-in-out 200ms;
-
-  &:focus {
-    border-color: var(--cyan);
-  }
+::v-deep(input[type="search"]) {
+  display: block;
 }
 </style>
