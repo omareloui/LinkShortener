@@ -22,7 +22,6 @@
   "dependencies": {
     "@pinia/nuxt": "^0.4.11",
     "bcrypt": "^5.1.1",
-    "cookie-universal": "^2.2.2",
     "jsonwebtoken": "^9.0.1",
     "mongoose": "^7.4.5",
     "ms": "^2.1.3",
