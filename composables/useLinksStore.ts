@@ -20,7 +20,10 @@ export function useLinksStore() {
   function setQuery(newQuery: string) {
     query.value = newQuery;
     if (!query.value) setPreviewToLinksData();
-    preview.links = ($links.value as Link[]).filter(x => x.url.match(newQuery) || x.slug.match(newQuery));
+    preview.links = ($links.value as Link[]).filter(x => {
+      const regex = new RegExp(`${newQuery}`, "i");
+      return x.url.match(regex) || x.slug.match(regex);
+    });
   }
 
   async function removeLink(link: LinkPojo) {
