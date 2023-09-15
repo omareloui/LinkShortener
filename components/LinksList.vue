@@ -6,8 +6,6 @@ const { preview, refresh } = useLinksStore();
   <TransitionGroup name="links-preview" class="list" tag="div">
     <LinkPreview v-for="link in preview.links" :key="link.slug" :link="link" @refresh-list="refresh"></LinkPreview>
   </TransitionGroup>
-  <!-- <div class="list"> -->
-  <!-- </div> -->
 </template>
 
 <style lang="scss">
