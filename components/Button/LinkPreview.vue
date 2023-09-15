@@ -60,5 +60,9 @@ button {
       opacity: 1;
     }
   }
+
+  @include tablet-down {
+    --size: 18px;
+  }
 }
 </style>

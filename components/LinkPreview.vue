@@ -40,9 +40,11 @@ function removeLink() {
 @use "~~/assets/styles/mixins" as *;
 
 .link {
+  --grid-gap: 20px;
+
   display: grid;
   grid-template-columns: 1fr 60px;
-  gap: 20px;
+  gap: var(--grid-gap);
   border-radius: 6px;
   background: var(--blur-surface5);
   backdrop-filter: blur(3px);
@@ -50,8 +52,9 @@ function removeLink() {
   align-items: center;
   @include w(100%);
 
-  --left-gap: 20px;
+  --left-gap: var(--grid-gap);
   --counter-size: 25px;
+  --buttons-gap: 12px;
 
   &__left {
     display: flex;
@@ -79,7 +82,7 @@ function removeLink() {
     display: flex;
     flex-wrap: nowrap;
     gap: 10px;
-    flex-grow: 1;
+    align-items: flex-end;
     max-width: calc(100% - 40px);
 
     &__slug {
@@ -88,10 +91,7 @@ function removeLink() {
       font-size: 1.2rem;
       text-decoration: none;
       white-space: nowrap;
-      overflow-x: hidden;
-      text-overflow: ellipsis;
-      max-width: 200px;
-      min-width: 30px;
+
       &:focus {
         outline: 2px dotted var(--subtext0);
         outline-offset: -1px;
@@ -112,7 +112,28 @@ function removeLink() {
   &__right {
     justify-self: end;
     display: flex;
-    gap: 12px;
+    gap: var(--buttons-gap);
+  }
+
+  @include tablet-down {
+    --counter-size: 20px;
+    --grid-gap: 15px;
+    --buttons-gap: 10px;
+
+    padding-inline: 20px;
+
+    .link__counter {
+      font-size: 0.8rem;
+    }
+
+    .text-details {
+      &__slug {
+        font-size: 1rem;
+      }
+      &__url {
+        font-size: 0.8rem;
+      }
+    }
   }
 }
 </style>
