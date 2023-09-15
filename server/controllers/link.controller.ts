@@ -19,7 +19,7 @@ class LinkController {
     const { context } = event;
     if (context.isAuthed) return links;
 
-    return links.map(x => ({ slug: x.slug, url: x.url }));
+    return links.filter(x => !x.isPrivate).map(x => ({ slug: x.slug, url: x.url }));
   });
 
   visit = eventHandler(async event => {
@@ -50,10 +50,12 @@ class LinkController {
   create = eventHandler(async event => {
     hasToBeAuthenticated(event);
 
-    const body: Partial<CreateLinkDto> = await readBody(event);
+    const body: CreateLinkDto = await readBody(event);
 
     body.slug ||= nanoid(this.DEFAULT_SLUG_LENGTH);
     body.slug = slugHelper.create(body.slug);
+
+    body.isPrivate ??= false;
 
     try {
       const data = CreateLinkDto.parse(body);

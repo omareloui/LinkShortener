@@ -5,7 +5,9 @@ export const CreateLinkDto = z.object({
   slug: z
     .string()
     .regex(/^[a-z0-9\-_]+$/)
-    .trim(),
+    .trim()
+    .optional(),
+  isPrivate: z.boolean().optional(),
 });
 
 export type CreateLinkDto = z.infer<typeof CreateLinkDto>;

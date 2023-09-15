@@ -8,7 +8,8 @@ function openSignModal() {
 
 async function signout() {
   await useFetch("/api/auth/signout", { method: "POST" });
-  setAuthState("not-authed");
+  setAuthState("is-authed");
+  location.pathname = "/";
 }
 </script>
 

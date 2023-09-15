@@ -24,7 +24,7 @@ const LinkSchema = new Schema<DehydratedLink>(
         at: { type: Date, required: true },
       },
     ],
-
+    isPrivate: { type: Boolean, default: false },
     clicks: { type: Number, default: 0 },
   },
   { timestamps: true, versionKey: false },

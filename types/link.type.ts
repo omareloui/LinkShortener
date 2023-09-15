@@ -15,6 +15,7 @@ export type DehydratedLink = {
   slug: string;
   clicks: number;
   visits: LinkVisit[];
+  isPrivate: boolean;
   createdAt: Date;
   updatedAt: Date;
 };
