@@ -3,11 +3,11 @@ const { preview, refresh } = useLinksStore();
 </script>
 
 <template>
-  <!-- <TransitionGroup name="links-preview" class="list" tag="div"> -->
-  <div class="list">
+  <TransitionGroup name="links-preview" class="list" tag="div">
     <LinkPreview v-for="link in preview.links" :key="link.slug" :link="link" @refresh-list="refresh"></LinkPreview>
-  </div>
-  <!-- </TransitionGroup> -->
+  </TransitionGroup>
+  <!-- <div class="list"> -->
+  <!-- </div> -->
 </template>
 
 <style lang="scss">

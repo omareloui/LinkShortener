@@ -1,4 +1,5 @@
-import { LinkPojo, LinkForNotAuthed } from "types";
+import type { CreateLinkDto } from "server/validate";
+import type { LinkPojo, LinkForNotAuthed } from "types";
 
 type Link = LinkPojo | LinkForNotAuthed;
 
@@ -31,10 +32,10 @@ export function useLinksStore() {
     await refresh();
   }
 
-  async function createLink(link: { url: string; slug?: string }) {
+  async function createLink(link: CreateLinkDto) {
     const { error } = await useFetch("/api/links", {
       method: "POST",
-      body: JSON.stringify({ url: link.url, slug: link.slug }),
+      body: JSON.stringify(link),
     });
     if (error.value) throw new Error(error.value.data.message);
     await refresh();

@@ -14,6 +14,7 @@ const urlInput = ref<InstanceType<typeof InputBase> | null>(null);
 
 const url = ref("");
 const slug = ref("");
+const isPrivate = ref(false);
 
 const slugPreview = computed(() =>
   process.client && slug.value ? `${origin}/${slugHelper.create(slug.value)}` : null,
@@ -22,6 +23,7 @@ const slugPreview = computed(() =>
 function clearInputs() {
   url.value = "";
   slug.value = "";
+  isPrivate.value = false;
 }
 
 async function submit() {
@@ -29,8 +31,8 @@ async function submit() {
   try {
     errorMessage.value = null;
     disableSubmit.value = true;
-    await createLink({ url: url.value, slug: slug.value });
-    setTimeout(clearInputs, 500);
+    await createLink({ url: url.value, slug: slug.value, isPrivate: isPrivate.value });
+    setTimeout(clearInputs, 0);
     setModalState(null);
   } catch (e) {
     errorMessage.value = parseErrorMessage(e);
@@ -60,6 +62,7 @@ onMounted(focusOnUrlInput);
       no-auto-complete
     />
     <InputText placeholder="Enter a custom slug" v-model="slug" label="Slug" name="slug" no-auto-complete />
+    <InputCheckbox v-model="isPrivate" label="Private" name="isPrivate" />
     <Transition v-if="slugPreview" name="fade">
       <div class="link-preview">{{ slugPreview }}</div>
     </Transition>
@@ -79,7 +82,7 @@ form {
   width: 100%;
 
   ::v-deep(button) {
-    margin-top: 20px;
+    margin-top: 15px;
   }
 
   .link-preview {
