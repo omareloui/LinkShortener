@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { LinkForNotAuthed, LinkPojo } from "../types";
 
-const { removeLink: _removeLink } = await useLinksStore();
+const { removeLink: _removeLink } = useLinksStore();
 
 const [authState] = useAuthState();
 const _copy = useCopy();

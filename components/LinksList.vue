@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { preview, refresh } = await useLinksStore();
+const { preview, refresh } = useLinksStore();
 </script>
 
 <template>

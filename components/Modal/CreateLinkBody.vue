@@ -6,7 +6,7 @@ import { parseErrorMessage } from "~~/server/utils/error";
 const [, setModalState] = useOpenModalState("create-link");
 
 const slugHelper = useSlugHelper();
-const { createLink } = await useLinksStore();
+const { createLink } = useLinksStore();
 
 const disableSubmit = ref(false);
 const errorMessage = ref<string | null>(null);

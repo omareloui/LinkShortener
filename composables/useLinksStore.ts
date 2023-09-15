@@ -5,7 +5,7 @@ type Link = LinkPojo | LinkForNotAuthed;
 const query = ref("");
 const preview = reactive<{ links: Link[] }>({ links: [] });
 
-export async function useLinksStore() {
+export function useLinksStore() {
   const { $links, $refreshLinks } = useNuxtApp();
 
   async function refresh() {

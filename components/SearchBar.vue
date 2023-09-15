@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const searchInput = ref<HTMLInputElement | null>(null);
 
-const { query, setQuery } = await useLinksStore();
+const { query, setQuery } = useLinksStore();
 const [openModalState] = useOpenModalState();
 
 function focus() {
