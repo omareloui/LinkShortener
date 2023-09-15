@@ -27,6 +27,7 @@ async function removeLink() {
     <div class="link__left">
       <div class="link__counter" v-if="isFull">{{ fullLink.clicks || fullLink.visits.length }}</div>
       <div class="text-details">
+        <div class="text-details__private" v-if="isFull && fullLink.isPrivate"><IconPrivate /></div>
         <NuxtLink :to="slug" class="text-details__slug">/{{ link.slug }}</NuxtLink>
         <span class="text-details__url">{{ link.url }}</span>
       </div>
@@ -84,11 +85,22 @@ async function removeLink() {
   }
 
   .text-details {
+    --private-size: 20px;
+    --gap: 7px;
     display: flex;
     flex-wrap: nowrap;
-    gap: 10px;
+    gap: var(--gap);
     align-items: flex-end;
     max-width: 100%;
+
+    &__private {
+      align-self: center;
+      display: flex;
+      place-items: center;
+      &::v-deep(svg) {
+        @include size(var(--private-size));
+      }
+    }
 
     &__slug {
       display: block;
@@ -96,6 +108,7 @@ async function removeLink() {
       font-size: 1.2rem;
       text-decoration: none;
       white-space: nowrap;
+      margin-right: calc(10px - var(--gap));
 
       &:focus {
         outline: 2px dotted var(--subtext0);
@@ -133,6 +146,7 @@ async function removeLink() {
     }
 
     .text-details {
+      --private-size: 15px;
       &__slug {
         font-size: 1rem;
       }
