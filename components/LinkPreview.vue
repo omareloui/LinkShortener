@@ -15,7 +15,9 @@ function copy() {
   return _copy(`${location.origin}/${slug.value}`);
 }
 
-function removeLink() {
+async function removeLink() {
+  const res = await confirm(`Are you sure you want to delete "${link.slug}" (${link.url})?`);
+  if (!res) return;
   return _removeLink(link);
 }
 </script>
@@ -23,7 +25,7 @@ function removeLink() {
 <template>
   <div class="link" :class="{ 'link--full': isFull }">
     <div class="link__left">
-      <div class="link__counter" v-if="isFull">{{ fullLink.clicks }}</div>
+      <div class="link__counter" v-if="isFull">{{ fullLink.clicks || fullLink.visits.length }}</div>
       <div class="text-details">
         <NuxtLink :to="slug" class="text-details__slug">/{{ link.slug }}</NuxtLink>
         <span class="text-details__url">{{ link.url }}</span>
