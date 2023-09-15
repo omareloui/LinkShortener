@@ -6,21 +6,21 @@ const query = ref("");
 const preview = reactive<{ links: Link[] }>({ links: [] });
 
 export async function useLinksStore() {
-  const { data, refresh: _refresh } = await useFetch("/api/links");
+  const { $links, $refreshLinks } = useNuxtApp();
 
   async function refresh() {
-    await _refresh();
+    await $refreshLinks();
     setPreviewToLinksData();
   }
 
   function setPreviewToLinksData() {
-    preview.links = data.value as unknown as Link[];
+    preview.links = $links.value as unknown as Link[];
   }
 
   function setQuery(newQuery: string) {
     query.value = newQuery;
     if (!query.value) setPreviewToLinksData();
-    preview.links = (data.value as Link[]).filter(x => x.url.match(newQuery) || x.slug.match(newQuery));
+    preview.links = ($links.value as Link[]).filter(x => x.url.match(newQuery) || x.slug.match(newQuery));
   }
 
   async function removeLink(link: LinkPojo) {
