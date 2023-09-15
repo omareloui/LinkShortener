@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import ms from "ms";
 import { H3Event, EventHandlerRequest } from "h3";
 

@@ -11,7 +11,7 @@
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
-    "@types/bcrypt": "^5.0.0",
+    "@types/bcryptjs": "^2.4.3",
     "@types/jsonwebtoken": "^9.0.2",
     "@types/ms": "^0.7.31",
     "@types/node": "^18.17.3",
@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "@pinia/nuxt": "^0.4.11",
-    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
     "jsonwebtoken": "^9.0.1",
     "mongoose": "^7.4.5",
     "ms": "^2.1.3",
