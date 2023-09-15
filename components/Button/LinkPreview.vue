@@ -14,8 +14,6 @@ defineEmits<{ (e: "click"): void }>();
 @use "~~/assets/styles/mixins" as *;
 
 button {
-  --size: 23px;
-
   position: relative;
   background: none;
   outline: none;
@@ -23,7 +21,7 @@ button {
   display: grid;
   place-items: center;
   cursor: pointer;
-  @include size(var(--size));
+  @include size(var(--action-button-size));
 
   ::v-deep(svg) {
     @include size(100%);
@@ -59,10 +57,6 @@ button {
       translate: 0 0;
       opacity: 1;
     }
-  }
-
-  @include tablet-down {
-    --size: 18px;
   }
 }
 </style>

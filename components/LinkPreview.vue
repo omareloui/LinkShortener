@@ -21,7 +21,7 @@ function removeLink() {
 </script>
 
 <template>
-  <div class="link" :class="{ 'link-preview--full': isFull }">
+  <div class="link" :class="{ 'link--full': isFull }">
     <div class="link__left">
       <div class="link__counter" v-if="isFull">{{ fullLink.clicks }}</div>
       <div class="text-details">
@@ -41,9 +41,12 @@ function removeLink() {
 
 .link {
   --grid-gap: 20px;
+  --counter-size: 25px;
+  --action-buttons-gap: 12px;
+  --action-button-size: 23px;
 
   display: grid;
-  grid-template-columns: 1fr 60px;
+  grid-template-columns: 1fr var(--action-button-size);
   gap: var(--grid-gap);
   border-radius: 6px;
   background: var(--blur-surface5);
@@ -52,13 +55,13 @@ function removeLink() {
   align-items: center;
   @include w(100%);
 
-  --left-gap: var(--grid-gap);
-  --counter-size: 25px;
-  --buttons-gap: 12px;
+  &--full {
+    grid-template-columns: 1fr calc(var(--action-button-size) * 2 + var(--action-buttons-gap));
+  }
 
   &__left {
     display: flex;
-    gap: var(--left-gap);
+    gap: var(--grid-gap);
     align-items: center;
     overflow-x: hidden;
     overflow-y: auto;
@@ -83,7 +86,7 @@ function removeLink() {
     flex-wrap: nowrap;
     gap: 10px;
     align-items: flex-end;
-    max-width: calc(100% - 40px);
+    max-width: 100%;
 
     &__slug {
       display: block;
@@ -112,13 +115,14 @@ function removeLink() {
   &__right {
     justify-self: end;
     display: flex;
-    gap: var(--buttons-gap);
+    gap: var(--action-buttons-gap);
   }
 
   @include tablet-down {
     --counter-size: 20px;
     --grid-gap: 15px;
-    --buttons-gap: 10px;
+    --action-buttons-gap: 10px;
+    --action-button-size: 18px;
 
     padding-inline: 20px;
 
