@@ -14,5 +14,6 @@ const { preview, refresh } = useLinksStore();
 .list {
   display: grid;
   gap: 15px;
+  margin-bottom: 20px;
 }
 </style>
