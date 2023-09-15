@@ -18,9 +18,10 @@ function openCreateLink() {
 @use "~~/assets/styles/mixins" as *;
 
 .floating-button {
+  --floating-button-size: 80px;
   --outside-container: (100% - var(--container-width)) / 2;
 
-  @include size(80px);
+  @include size(var(--floating-button-size));
   border-radius: 50%;
   border: 2px solid var(--cyan-opacified);
   position: fixed;
@@ -54,6 +55,10 @@ function openCreateLink() {
     &::v-deep(svg) {
       @include size(100%);
     }
+  }
+
+  @include tablet-down {
+    --floating-button-size: 60px;
   }
 }
 </style>
