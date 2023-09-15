@@ -54,5 +54,11 @@ button {
   &[disabled] {
     filter: grayscale(1);
   }
+
+  @include tablet-down {
+    @include w(min 90px);
+    padding: 8px 10px;
+    font-size: 0.9rem;
+  }
 }
 </style>
