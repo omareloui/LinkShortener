@@ -147,6 +147,7 @@ async function removeLink() {
 
     .text-details {
       --private-size: 15px;
+      --gap: 3px;
       &__slug {
         font-size: 1rem;
       }
