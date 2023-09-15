@@ -24,9 +24,9 @@ function removeLink() {
   <div class="link" :class="{ 'link-preview--full': isFull }">
     <div class="link__left">
       <div class="link__counter" v-if="isFull">{{ fullLink.clicks }}</div>
-      <div class="link__text-details">
-        <NuxtLink :to="slug" class="link__slug">/{{ link.slug }}</NuxtLink>
-        <span class="link__url">{{ link.url }}</span>
+      <div class="text-details">
+        <NuxtLink :to="slug" class="text-details__slug">/{{ link.slug }}</NuxtLink>
+        <span class="text-details__url">{{ link.url }}</span>
       </div>
     </div>
     <div class="link__right">
@@ -41,7 +41,8 @@ function removeLink() {
 
 .link {
   display: grid;
-  grid-template-columns: 1fr 100px;
+  grid-template-columns: 1fr 60px;
+  gap: 20px;
   border-radius: 6px;
   background: var(--blur-surface5);
   backdrop-filter: blur(3px);
@@ -49,38 +50,63 @@ function removeLink() {
   align-items: center;
   @include w(100%);
 
+  --left-gap: 20px;
+  --counter-size: 25px;
+
   &__left {
     display: flex;
-    gap: 20px;
+    gap: var(--left-gap);
     align-items: center;
+    overflow-x: hidden;
+    overflow-y: auto;
   }
 
   &__counter {
-    --size: 25px;
+    --inline-padding: 5px;
+
     background: var(--gradient-primary);
-    @include size(var(--size));
+    @include h(var(--counter-size));
+    @include w(min var(--counter-size));
     border-radius: 4px;
     font-size: 0.9rem;
-    line-height: var(--size);
+    line-height: var(--counter-size);
     text-align: center;
     font-weight: bold;
+    padding-inline: var(--inline-padding);
   }
 
-  &__slug {
-    font-weight: bold;
-    font-size: 1.2rem;
-    margin-right: 10px;
-    text-decoration: none;
-    &:focus {
-      outline: 2px dotted var(--subtext0);
-      outline-offset: 2px;
-      border-radius: 2px;
+  .text-details {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 10px;
+    flex-grow: 1;
+    max-width: calc(100% - 40px);
+
+    &__slug {
+      display: block;
+      font-weight: bold;
+      font-size: 1.2rem;
+      text-decoration: none;
+      white-space: nowrap;
+      overflow-x: hidden;
+      text-overflow: ellipsis;
+      max-width: 200px;
+      min-width: 30px;
+      &:focus {
+        outline: 2px dotted var(--subtext0);
+        outline-offset: -1px;
+        border-radius: 6px;
+      }
     }
-  }
 
-  &__url {
-    font-size: 1rem;
-    color: var(--subtext0);
+    &__url {
+      display: block;
+      font-size: 1rem;
+      color: var(--subtext0);
+      white-space: nowrap;
+      overflow-x: hidden;
+      text-overflow: ellipsis;
+    }
   }
 
   &__right {
