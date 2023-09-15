@@ -44,9 +44,11 @@ function onClick(e: Event) {
 
 function onKeyup(e: KeyboardEvent) {
   const { code } = e;
-  if (code === "Escape") close();
 
-  if (document.activeElement?.tagName === "INPUT") return;
+  if (code === "Escape" && isOpen.value) return close();
+
+  if (e.ctrlKey || isOpen.value || document.activeElement?.tagName === "INPUT") return;
+
   const foundKey = Object.keys(BODIES).find(
     key => code === BODIES[key as keyof typeof BODIES].shortCut,
   ) as keyof typeof BODIES;
