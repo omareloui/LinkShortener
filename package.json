@@ -1,6 +1,7 @@
 {
   "name": "omareloui-links",
   "private": true,
+  "packageManager": "pnpm@8.6.12",
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
