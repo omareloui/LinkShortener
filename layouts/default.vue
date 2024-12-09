@@ -5,6 +5,7 @@ useHead({
 
 if (process.client) {
   useTheme();
+  useShortCuts();
 }
 </script>
 
