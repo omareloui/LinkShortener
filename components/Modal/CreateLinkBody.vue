@@ -4,6 +4,7 @@ import InputBase from "../Input/Base.vue";
 import { parseErrorMessage } from "~~/server/utils/error";
 
 const [, setModalState] = useOpenModalState("create-link");
+const copy = useCopy();
 
 const slugHelper = useSlugHelper();
 const { createLink } = useLinksStore();

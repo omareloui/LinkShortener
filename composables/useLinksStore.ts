@@ -5,6 +5,7 @@ type Link = LinkPojo | LinkForNotAuthed;
 
 const query = ref("");
 const preview = reactive<{ links: Link[] }>({ links: [] });
+const copy = useCopy();
 
 export function useLinksStore() {
   const { $links, $refreshLinks } = useNuxtApp();
@@ -33,12 +34,13 @@ export function useLinksStore() {
   }
 
   async function createLink(link: CreateLinkDto) {
-    const { error } = await useFetch("/api/links", {
+    const { data, error } = await useFetch("/api/links", {
       method: "POST",
       body: JSON.stringify(link),
     });
     if (error.value) throw new Error(error.value.data.message);
     await refresh();
+    await copy(`${location.origin}/${(data.value as Link).slug}`);
   }
 
   setPreviewToLinksData();
